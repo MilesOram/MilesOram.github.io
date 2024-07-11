@@ -1,1 +1,1124 @@
-"Test" 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Miles Oram - Game Development Portfolio</title>
+	<style>
+		
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Arial', sans-serif;
+			line-height: 1.6;
+			color: #333;
+			background-color: #f4f4f4;
+		}
+
+		header {
+			background-color: #000000;
+			color: #ecf0f1;
+			text-align: center;
+			padding: 2rem 0;
+			position: relative;
+			font-size: 36px;
+
+
+		}
+		.solo-img {
+			width: 90%;
+		}
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Monospace Option */
+        .monospace {
+            font-family: 'Courier New', monospace;
+        }
+
+		header h1 {
+			font-size: 2.5rem;
+			margin-bottom: 0.5rem;
+		}
+
+		nav {
+            background-color: #2c3e50;
+            padding: 10px 0;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 2800px; /* Increased from 1000px */
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+            min-width: 0;
+        }
+        .left-group {
+            flex: 3; /* Give more space to the left group */
+        }
+        .right-group {
+            flex: 2; /* Give less space to the right group */
+        }
+        .nav-group h3 {
+            color: #ecf0f1;
+            margin: 0 0 10px 0;
+            font-size: 0.9em;
+            font-weight: normal;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%; /* Ensure the ul takes full width of its container */
+        }
+        .left-group ul {
+            justify-content: flex-end;
+        }
+        .right-group ul {
+            justify-content: flex-start;
+        }
+        nav ul li {
+            padding: 0 10px;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        nav ul li:not(:last-child)::after {
+            content: '|';
+            position: absolute;
+            right: 0;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        nav ul li.no-separator::after {
+            content: none;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            white-space: nowrap;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: white;
+            visibility: hidden;
+            transform: scaleX(0);
+            transition: all 0.3s ease-in-out;
+        }
+        nav ul li a:hover::after {
+            visibility: visible;
+            transform: scaleX(1);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-group {
+                margin: 10px 0;
+                width: 100%;
+            }
+            .left-group, .right-group {
+                flex: 1;
+            }
+            nav ul {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                margin: 5px 0;
+            }
+            nav ul li:not(:last-child)::after {
+                content: none;
+            }
+        }
+				
+
+		.project-band {
+            padding: 4rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .project-band::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 25%;
+            width: 150%;
+            background: linear-gradient(135deg, 
+                rgba(255,255,255,0) 49.9%, 
+                rgba(255,255,255,0.2) 50%, 
+                rgba(255,255,255,0.5) 100%
+            );
+            z-index: 1;
+			pointer-events: none;
+        }
+        .project-band:nth-child(even)::before {
+            right: 55%;
+        }
+        .project-band::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -200%;
+            width: 200%;
+            height: 5px;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.8), transparent);
+            animation: borderAnimation 6s linear infinite;
+        }
+        @keyframes borderAnimation {
+            0% { left: -200%; }
+            100% { left: 100%; }
+        }
+        .project-band:nth-child(odd) {
+            background: linear-gradient(to bottom right, #d1e9ff, #e6f3ff);
+        }
+        .project-band:nth-child(even) {
+            background: linear-gradient(to bottom right, #cacdff, #d8deff);
+        }
+		
+
+		h2 {
+			font-size: 2rem;
+			margin-bottom: 1rem;
+			color: #2c3e50;
+		}
+
+		p {
+			margin-bottom: 1rem;
+		}
+
+		.btn {
+			display: inline-block;
+			background-color: #3498db;
+			color: #fff;
+			padding: 0.5rem 1rem;
+			text-decoration: none;
+			border-radius: 5px;
+			transition: background-color 0.3s ease;
+		}
+
+			.btn:hover {
+				background-color: #2980b9;
+			}
+
+		footer {
+			background-color: #2c3e50;
+			color: #ecf0f1;
+			text-align: center;
+			padding: 1rem 0;
+		}
+
+		.project-content {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-items: flex-start;
+			width: 80%; /* Adjust this value to change gallery width */
+			max-width: 1600px;
+			margin: 0 auto;
+			padding: 20px;
+			gap: 20px;
+		}
+
+		.project-info {
+			flex: 2; /* Increased from 1 to 2 */
+			min-width: 400px; /* Increased from 300px */
+			margin-right: 100px; /* Reduced from 200px */
+		}
+
+		.project-media {
+			flex: 3; /* Increased from 2 to 3 to maintain proportion */
+			display: flex;
+			justify-content: space-between;
+			gap: 20px;
+		}
+
+        .stacked-gallery {
+            position: relative;
+            width: 40%; /* Adjust this value to change gallery width */
+            aspect-ratio: 3 / 4; /* Adjust this ratio to change gallery shape */
+            perspective: 1000px;
+        }
+
+        .gallery-item {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: all 0.5s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: black;
+        }
+
+        .gallery-item:nth-child(1) { z-index: 5; top: 0; left: 0; }
+        .gallery-item:nth-child(2) { z-index: 4; top: 4%; left: 4%; }
+        .gallery-item:nth-child(3) { z-index: 3; top: 8%; left: 8%; }
+        .gallery-item:nth-child(4) { z-index: 2; top: 12%; left: 12%; }
+        .gallery-item:nth-child(5) { z-index: 1; top: 16%; left: 16%; }
+
+		.gallery-nav {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			background: rgba(0, 0, 0, 0.5);
+			color: white;
+			padding: 10px 15px;
+			text-decoration: none;
+			border-radius: 50%;
+			z-index: 10;
+			cursor: pointer;
+		}
+
+			.gallery-nav.prev {
+				left: 10px;
+			}
+
+			.gallery-nav.next {
+				right: 10px;
+			}
+
+			.gallery-nav:hover {
+				background: rgba(0, 0, 0, 0.8);
+			}
+			.carousel-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        .carousel-container {
+            max-width: 800px;
+            margin: 0 auto 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .carousel-item {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .carousel-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .carousel-nav.prev {
+            left: 10px;
+        }
+        .carousel-nav.next {
+            right: 10px;
+        }
+        .carousel-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .dot.active {
+            background-color: white;
+        }
+		@media (max-width: 768px) {
+            .project-media {
+                flex-direction: column;
+            }
+            .stacked-gallery {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+		.modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 90%;
+            max-width: 1200px;
+        }
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #thumbnailImg {
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        #thumbnailImg:hover {opacity: 0.7;}
+		ul, ol {
+			padding-left: 20px;
+		}
+		.top-button {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 1000;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .top-button:hover {
+            background-color: #555;
+        }
+		.navlink {
+			content: normal;
+		}
+	</style>
+</head>
+<body>
+    <nav><a href="#top" class="top-button" aria-label="Top">Top</a></nav>
+	<header class="monospace" id="top">
+        Miles Oram | Game Development Portfolio<span class="blink">_</span>
+    </header>
+    <title>Home - Miles Oram | Game Development Portfolio</title>
+	<nav>
+		<div class="nav-container">
+			<div class="nav-group left-group">
+				<h3>Write-ups</h3>
+				<ul>
+					<li><a href="#multi-threaded-engine">Multi-Threaded Game Engine</a></li>
+					<li class="no-separator"><a href="#slay-the-spire-recreation">Slay the Spire:   Recreation</a></li>
+					<li class="no-separator"><a href="#slay-the-spire-ml-project">+ Machine Learning</a></li>
+					<li><a href="#slay-the-spire-custom">+ Custom Class</a></li>
+					<li><a href="#terrain-generation">Procedural Terrain Generation - UE</a></li>
+					<li><a href="#occlusion-culling">Occlusion Culling - Unity</a></li>
+					<li><a href ="#game-analysis-critique">Critiques & Future Projects</a></li>
+				</ul>
+			</div>
+			<div class="nav-group right-group">
+				<h3>Video Demos</h3>
+				<ul>
+					<li><a href="#split-screen">Seamless Split-Screen - Unity</a></li>
+					<li><a href="#top-down-action">Top-Down Action - Unity</a></li>
+					<li><a href="#retro-games">Retro Games in a Day</a></li>
+					<li><a href="#old-projects">Old Projects - UE</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<main>
+		<section id="start" class="project-band">
+			<div class="project-content">
+				<h4>
+					Physics graduate turned aspiring game programmer with a strong background in C++ and experience in gameplay and systems programming.
+					On leaving university, I set my sights on a career in the games industry. 
+					I'm looking forward to creating innovative gameplay experiences, bringing insights from a lifetime of playing and thinking about games across various genres.
+					<br>
+					This portfolio contains a selection of game-focused projects.
+				</h4>
+				<div>
+					<p>
+						For the best showcase of my C++ ability and an optimisation focused project, see <navlink><a href="#multi-threaded-engine">Multi-Threaded Game Engine</a></navlink>. (Most recent project)
+					</p>
+					<p>	
+						For some quicker to view content, see the VIDEO DEMOS tab in the nav bar.
+					</p>
+					<p>
+						And for the most novel and interesting project, see all Slay the Spire work, particularly <navlink><a href="#slay-the-spire-ml-project">beating the game using Reinforcement Learning</a></navlink>. (Worked on from late 2022 to early/mid 2023)
+					</p>
+				</div>
+			</div>
+		</section>
+		<section id="multi-threaded-engine" class="project-band">
+			<div class="project-content">
+				<div class="project-media">
+					<iframe width="840" height="473" src="https://www.youtube.com/embed/3xijSwGcOYE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+				</div>
+				<div class="project-info">
+					<h2>Multi-Threaded Game Engine (C++)</h2>
+					<p>
+						A multi-threaded game engine implemented in C++ using SFML, applied to an extended version of Asteroids with a novel visibility mechanic.
+						<br>
+						The goal of the project was to build out complex game engine systems and to practise extensive profiling and optimisation.
+						<ul>
+							<li>Concurrent programming: a custom job system, use of mutexes, atomics, lock-free data structures, wait-free systems</li>
+							<li>Rendering & Shaders: line-traced occluded glow, texture atlasing, batching draw calls, particle system</li>
+							<li>Collision: intersection testing using GJK, spatial partitioning, support for various collider shapes</li>
+							<li>Code optimisation: SIMD, cache-aware programming, memory optimization and much more</li>
+							<li>Scalable systems: Component-based architecture and a lock-free object pool with dynamic management</li>
+						</ul>
+					</p>
+					<a href="multi-threaded-game-engine.html" class="btn">View Full Project</a>
+				</div>
+			</div>
+		</section>
+
+		<section id="slay-the-spire-recreation" class="project-band">
+			<div class="project-content">
+				<div class="project-info">
+					<h2>Slay the Spire - Recreation (C++)</h2>
+					<p>A faithful recreation of the popular roguelike deckbuilder game, implemented in C++ with a focus on OOP and design patterns.</p>
+					<p>
+						The video shows a fully playable version of Ironclad, the first class, and includes all cards, relics, potions and acts in the game for a complete experience in a text-based format.
+					</p>
+					<a href="slay-the-spire-recreation.html" class="btn">View Full Project</a>
+				</div>
+				<div class="project-media">
+					<iframe width="840" height="473" src="https://www.youtube.com/embed/I9xU-Yd0r3I" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+				</div>
+				
+			</div>
+		</section>
+
+		<section id="slay-the-spire-ml-project" class="project-band">
+			<div class="project-content">
+				<div class="project-media">
+					<img id="thumbnailImg" src="img/STS_ML/MicroModel.PNG" alt="Slay the Spire RL Architecture" style="width:100%;max-width:800px">
+
+					<div id="imageModal" class="modal">
+						<span class="close">&times;</span>
+						<img class="modal-content" id="modalImg">
+					</div>
+				</div>
+				<div class="project-info">
+					<h2>Slay the Spire - Machine Learning (C++ & Python)</h2>
+					<p>A Reinforcement Learning project to build an AI capable of autonomously playing and beating Slay the Spire.</p>
+					<p>
+						The game was successfully beaten with a combination of 3 different models, each focusing on different macro and micro areas of decision-making, which were carefully interwoven.
+					</p>
+					<a href="slay-the-spire-ml-project.html" class="btn">View Full Project</a>
+				</div>
+			</div>
+		</section>
+		<section id="slay-the-spire-custom" class="project-band">
+			<div class="project-content">
+				<div class="project-info">
+					<h2>Slay the Spire - Custom Class (C++)</h2>
+					<p>
+						A fully designed and balanced custom class for Slay the Spire: two new major mechanics with relics, potions and a complete card pool.
+						Sample cards are shown, where (text in brackets denotes the upgraded effects).
+					</p>
+					<a href="slay-the-spire-custom.html" class="btn">View Full Class</a>
+				</div>
+				<div class="project-media">
+					<div class="stacked-gallery">
+						<div class="gallery-item">
+							<img src="./img/STS_Custom/AU3_IncisiveBlast.png" alt="AU3_IncisiveBlast" class="black-bg">
+						</div>
+						<div class="gallery-item">
+							<img src="./img/STS_Custom/PU0_InstinctualRecall.png" alt="PU0_InstinctualRecall" class="black-bg">
+						</div>
+						<div class="gallery-item">
+							<img src="./img/STS_Custom/AC1_Fundamentals.png" alt="AC1_Fundamentals" class="black-bg">
+						</div>
+						<div class="gallery-item">
+							<img src="./img/STS_Custom/SY1_MarkedForDeath.png" alt="SY1_MarkedForDeath" class="black-bg">
+						</div>
+						<div class="gallery-item">
+							<img src="./img/STS_Custom/SU1_VampiricArsenal.png" alt="SU1_VampiricArsenal" class="black-bg">
+						</div>
+						<div class="gallery-nav prev">&lt;</div>
+						<div class="gallery-nav next">&gt;</div>
+					</div>
+					<div class="stacked-gallery">
+						<div class="gallery-item">
+							<img src="./img/STS_Custom/AY3_ChromaticSurge.png" alt="AY3_ChromaticSurge" class="black-bg">
+						</div>
+						<div class="gallery-item">
+							<img src="./img/STS_Custom/AU2_RitualStrike.png" alt="AU2_RitualStrike" class="black-bg">
+						</div>
+						<div class="gallery-item">
+							<img src="./img/STS_Custom/PU2_Feast.png" alt="PU2_Feast" class="black-bg">
+						</div>
+						<div class="gallery-item">
+							<img src="./img/STS_Custom/SU0_Mutate.png" alt="SU0_Mutate" class="black-bg">
+						</div>
+						<div class="gallery-item">
+							<img src="./img/STS_Custom/SC1_RavenousRetreat.png" alt="SC1_RavenousRetreat" class="black-bg">
+						</div>
+						<div class="gallery-nav prev">&lt;</div>
+						<div class="gallery-nav next">&gt;</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section id="split-screen" class="project-band">
+			<div class="project-content">
+				<div class="project-media">
+					<iframe width="840" height="473" src="https://www.youtube.com/embed/ZrcN3YM90lM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+				</div>
+				<div class="project-info">
+					<h2>Seamless Split-Screen Demo (Unity, C#)</h2>
+					<p>
+						Implemented a feature to allow a seamless transition between a joint screen and split-screen as the players move apart. 
+						<br>
+						The colour of the separating beam tends to purple when the ships are close, and red/blue as they veer further apart, to help the players gauge distance.
+					</p>
+				</div>
+			</div>
+		</section>
+		<section id="occlusion-culling" class="project-band">
+			<div class="project-content">
+				<div class="project-info">
+					<div class="project-description">
+						<h2>Occlusion Culling Tool (Unity, C#)</h2>
+						<p>Editor tool to bake occlusion data by assigning unique colours to each static occluder. Allows for fast runtime culling of occluded objects (as well as frustum culling). See images for the step-by-step method.</p>
+						
+						<h2>Additional Features:</h2>
+						
+						<h3>Cell Exclusion:</h3>
+						<p>
+							Options to exclude cells which are beneath the floor (looking up at a back-facing triangle) or more than a given height above an occluder.
+						</p>
+						
+						<h3>Downsampling:</h3>
+						<p>
+							Highly detailed bake converted to a lower resolution volume, reduces memory requirement for runtime occlusion data. 
+							Example: For each 3x3x3 of baked volume, output a single cell in which you render objects seen in any of those 27 cells.
+						</p>
+						
+						<h3>Merging:</h3>
+						<p>
+							After baking, can look at either orthogonally adjacent cells or orthogonally and diagonally adjacent cells for visible occluders. 
+							Each cell adds the visible occluders of nearby cells to its own list.
+						</p>
+						
+						<p>
+							<strong>Note:</strong> Downsampling and merging are similar but noticeably different: Downsampling aims to reduce the size of the data required at runtime, while merging aims to smooth the transition between cells as the camera moves and avoid pop-in.
+						</p>
+						
+						<h3>Transparent Renderers:</h3>
+						<p>
+							This is possible in a single pass but with two constraints: a limit to the number of transparent renderers in the scene and a limit to the number you can see through in sequence. 
+							The requirement is that given a blended pixel in your texture, you can extract from its RGBA the 2, 3, 4... unique colours which were blended to create it.
+						</p>
+						
+						<p>
+							There is a rabbit hole of looking at altered <a href="https://en.wikipedia.org/wiki/Sidon_sequence">Sidon Sequences</a> for pair-sums, triplet-sums and so on, where you arrange your colours to be taken from these sets. 
+							This approach works but does not seem like a good solution. 
+							The only viable other option is to do a new pass of cubemaps for each transparent renderer and make it opaque.
+							(View some of the <a href="occlusion-culling-compute-shader.html">compute shader work</a>).
+						</p>
+						<p><strong>
+							Bake time was reduced from &gt;100 ms/cell to 3 ms/cell through careful assignment of colours and handling of data, streamlining and fine-tuning the rendering process and optimising the compute shader work.
+						</strong></p>
+					  </div>
+				</div>
+				<div class="project-media">
+					<div class="carousel-container" id="image-carousel">
+						<div class="carousel">
+							<div class="carousel-item">
+								<img src="./img/OcclusionCulling/OC1.PNG" alt="OC1">
+								<h3>Test scene with static occluders.</h3>
+							</div>
+							<div class="carousel-item">
+								<img src="./img/OcclusionCulling/OC2.PNG" alt="OC2">
+								<h3>Each object's material is stored and a new material with a unique colour is assigned to all objects. (Allows for GPU instancing)</h3>
+							</div>
+							<div class="carousel-item">
+								<img src="./img/OcclusionCulling/OC3.PNG" alt="OC3">
+								<h3>The yellow wire frame shows the occlusion volume. 
+									The blue filled cell is occupied by the camera.
+									Each cell is either green (valid) or red (invalid). 
+									Red cells will not be sampled.
+									Each cell has a small sphere at its centred to aid visibility in the editor and shows the location where each cubemap will be rendered from.
+								</h3>
+							</div>
+							<div class="carousel-item">
+								<img src="./img/OcclusionCulling/OC4A.PNG" alt="OC4A">
+								<h3>By converting each cell's cubemap to a 2D render texture and processing using compute shaders, you can extract all visible colours and hence renderers from each cell.</h3>
+							</div>
+							<div class="carousel-item">
+								<img src="./img/OcclusionCulling/OC4B.PNG" alt="OC4B">
+								<h3>Frustum culling is ignored to focus on occlusion culling. Each object's original material is also reassigned.</h3>
+							</div>
+							<div class="carousel-item">
+								<img src="./img/OcclusionCulling/OC5A.PNG" alt="OC5A">
+								<h3>Colours changed for easier visibility, objects which are culled are shown by their wire frame instead.</h3>
+							</div>
+							<div class="carousel-item">
+								<img src="./img/OcclusionCulling/OC5B.PNG" alt="OC5B">
+								<h3>Persective closer to the camera. The baked data is stored in an asset and loaded by the camera at runtime for lookup with low overhead.</h3>
+							</div>
+						</div>
+						<a href="#" class="carousel-nav prev">&lt;</a>
+						<a href="#" class="carousel-nav next">&gt;</a>
+						<p></p>
+						<div class="carousel-dots"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section id="retro-games" class="project-band">
+			<div class="project-content">
+				<div class="project-media">
+					<div class="carousel-container" id="video-carousel">
+						<div class="carousel">
+							<div class="carousel-item" data-video-id="v3xJC1OnJKI">
+								<div class="video-container"></div>
+							</div>
+							<div class="carousel-item" data-video-id="4RaIn48GQu0">
+								<div class="video-container"></div>
+							</div>
+							<div class="carousel-item" data-video-id="eF4hNFOsCkk">
+								<div class="video-container"></div>
+							</div>
+							<div class="carousel-item" data-video-id="0fqWX7iBKSw">
+								<div class="video-container"></div>
+							</div>
+							<div class="carousel-item" data-video-id="STMWM7XivjY">
+								<div class="video-container"></div>
+							</div>
+							<div class="carousel-item" data-video-id="P2YPNMrPa4A">
+								<div class="video-container"></div>
+							</div>
+							<div class="carousel-item" data-video-id="M-BUgFPly0E">
+								<div class="video-container"></div>
+							</div>
+						</div>
+						<a href="#" class="carousel-nav prev">&lt;</a>
+						<a href="#" class="carousel-nav next">&gt;</a>
+						<div class="carousel-dots"></div>
+					</div>
+					<div class="project-info">
+						<h2>Retro Games in a Day (C++)</h2>
+						<p>
+							A series of arcade/retro games created using a custom 2D pixel engine. 
+							Each project was completed in a single day to practice working under time constraints.
+						</p>
+						<p>
+							Including: Tetris, Retro Racer, Asteroids, 2D Platformer, Breakout & Minesweeper.
+							<br>
+							At the end is a rendered 3D landscape from an extended version of the same pixel engine including uni-directional lighting.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section id="terrain-generation" class="project-band">
+			<div class="project-content">
+				<div class="project-info">
+					<div class="project-description">
+						<h2>Procedural Terrain Generation (Unreal Engine, C++)</h2>
+						<p>
+							A tool which uses Perlin noise to procedurally generate terrain and vary texture based on height using a tile-based system. 
+							<br>
+							A wide range of configurations are possible: 
+							<ul>
+								<li>Adjustments to major and minor noise for the terrain elevation
+								</li><li>Tile number and size
+								</li><li>Terrain textures
+								</li><li>Heights and band size for texture blending in terrain material
+								</li>
+							</ul>
+							Also generates foliage dynamically at runtime to populate the landscape as required, spreading out larger assets whilst allowing smaller assets to clump.
+							Projects includes the use of Procedural & Hierarchical Static Mesh Components and both the terrain and foliage generation is multi-threaded.
+						</p>
+					</div>
+					<a href="proc-terrain-ue.html" class="btn">View Full Project</a>
+				</div>
+				<div class="project-media">
+					<div class="carousel-container" id="image-carousel2">
+						<div class="carousel">
+							<div class="carousel-item">
+								<img src="./img/ProcTerrain/foliage1.PNG" alt="PT1">
+								<h3>
+									
+								</h3>
+							</div>
+							<div class="carousel-item">
+								<img src="./img/ProcTerrain/mountain.PNG" alt="PT2">
+								<h3>
+									
+								</h3>
+							</div>
+							<div class="carousel-item">
+								<img src="./img/ProcTerrain/plain.PNG" alt="PT3">
+								<h3>
+
+								</h3>
+							</div>
+							<div class="carousel-item">
+								<img src="./img/ProcTerrain/foliage2.PNG" alt="PT3">
+								<h3>
+
+								</h3>
+							</div>
+						</div>
+						<a href="#" class="carousel-nav prev">&lt;</a>
+						<a href="#" class="carousel-nav next">&gt;</a>
+						<div class="carousel-dots"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section id="top-down-action" class="project-band">
+			<div class="project-content">
+				<div class="project-media">
+					<div class="video-container-almost">
+						<iframe width="840" height="473" src="https://www.youtube.com/embed/" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+					</div>
+				</div>
+				<div class="project-info">
+					<h2>Top-Down Action Demo (Unity, C#)</h2>
+					<p>
+						A prototype level for the following concept:
+						<ul>
+							<li>Start with an abundance of abilities, at each stage sacrifice one and upgrade another.</li>
+							<li>Upgrades could be a traditional upgrade tree for each ability or maybe something more Transistor-like, and the sacrificed ability determines the nature of the upgrade (some sort of infusion).</li>
+							<li>As the game progresses, the result is a very literal increase in depth and decrease in breadth, allowing players to discard abilities they don't enjoy, and fully engage with and master the ones they do.</li>
+							<li>This demo shows a version of this concept. Here you are given three cards and asked to sacrifice one and then upgrade one to its A or B variant.</li>
+							<li>This repeats twice more such that with 10 starting abilities, you then have 7 total, 3 of which are upgraded, in preparation for a 3-phase fight.</li>
+							<li>AI is controlled by a Behaviour Tree </li>
+						</ul>
+					</p>
+				</div>
+			</div>
+		</section>
+		<section id="old-projects" class="project-band">
+			<div class="project-content">
+				<div class="project-info">
+					<h2>Old Projects (Unreal Engine)</h2>
+					<p>
+						An end of Uni project to make Monopoly in C++ (not UE).
+					</p>
+					<p>
+						Older projects made in Unreal Engine using Blueprints including:
+						<ul>
+							<li>A simple block puzzle memory game.</li>
+							<li>A card game template for Magic: The Gathering. Allows playing and organising lands, tapping for mana and undoing, searching the library for certain cards and moving cards around in hand.</li>
+							<li>A 3rd Person Shooter, implementing simple wall-running, AoE effects, weapon switching, AI targeting (which I have no footage for).</li>
+						</ul>
+					</p>
+				</div>
+				<div class="project-media">
+					<div class="carousel-container" id="video-carousel2">
+						<div class="carousel">
+							<div class="carousel-item" data-video-id="k1mvBhsuONc">
+								<div class="video-container"></div>
+							</div>
+							<div class="carousel-item" data-video-id="X5brhIrd9RM">
+								<div class="video-container"></div>
+							</div>
+							<div class="carousel-item" data-video-id="UfVQB06fsVg">
+								<div class="video-container"></div>
+							</div>
+						</div>
+						<a href="#" class="carousel-nav prev">&lt;</a>
+						<a href="#" class="carousel-nav next">&gt;</a>
+						<div class="carousel-dots"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section id="game-analysis-critique" class="project-band">
+			<div class="project-content">
+				<div class="project-media">
+					<img id="thumbnailImg" src="img/game/games.PNG" alt="Slay the Spire RL Architecture" style="width:100%;max-width:650px">
+
+					<div id="imageModal" class="modal">
+						<span class="close">&times;</span>
+						<img class="modal-content" id="modalImg">
+					</div>
+				</div>
+				<div class="project-info">
+					<h2>Game Analyses & Critiques</h2>
+					<p>
+						I may or may not add some critiques and analyses that I've written about various games into this section.
+						They are currently far too long for a portfolio but include:
+						<ul>
+							<li><strong>Elden Ring:</strong> My favourite game - A focus on boss design (combo extenders, delayed attacks, the player's learning experience) and the stellar exploration sequences. Also discussion about bloat, enemy/boss repetition and where I disagree with some common criticism.</li>
+							<li><strong>Elden Ring: Shadow of the Erdtree:</strong> A discussion on the challenge of designing a 40 hour DLC to be fair, rewarding and challenging when players likely have complete builds and most importantly extensive healing resources.</li>
+							<li><strong>Divinity: Original Sin II:</strong> Largely a comparison to Baldur's Gate 3 and where each exceeds the other. Also an in-depth analysis of DOS2's combat and the idea of balancing difficulty in preparation (gear, temporary buffs, pre-fight surfaces and positioning etc.) vs execution (in-fight decisions).</li>
+							<li><strong>Persona 3 Reload:</strong> A comprehensive critique and specific look at the failings of its 'rogue-lite'ish gameplay, as well as the good and bad of its combat mechanics and complexity curve.</li>
+							<li><strong>Star Wars Jedi: Survivor:</strong> Another comprehensive critique, discussing potential improvements to combat, its disappointing metroidvania abilities, a general 'great but unfinished' theme and more.</li>
+							<li><strong>Senua's Saga: Hellblade II:</strong> A discussion of the successes and shortcomings of the game's combat as well as getting the most out of graphical realism and thematic puzzles in terms of the player's experience.</li>
+							<li><strong>12 Minutes:</strong> My least favourite game - A discussion about interesting premises with poor execution, continuity, consistency and time loop games.</li>
+						</ul>
+						(In case you were wondering, the games in the image are not in any strict order, I just thought it looked cool.)
+					</p>
+				</div>
+			</div>
+		</section>
+		<section id="future-projects" class="project-band">
+			<div class="project-content">
+				<div class="project-info">
+					<h2>Future Projects</h2>
+					<p>
+						A list of likely future projects that interest me:
+						<ul>
+							<li>
+								A prototype for something similar to Return of the Obra Dinn - before each frozen-in-time scene in Obra Dinn, there is a black-screen audio-only phase. 
+								I wanted to explore what you could do by allowing the player to move around a static, low-detailed scene and spatially explore the audio clues.
+							</li>
+							<li>
+								Maybe something with a clockwork solar system like Outer Wilds or small planets like Super Mario Galaxy to experiment with gravity-based gameplay mechanics (also maybe a camera system for a platformer like this or like Psychonauts).
+							</li>
+							<li>
+								Physics-based project, likely water simulation or destruction to more directly use the knowledge from my degree.
+							</li>
+							<li>
+								Simple RTS framework with strategic zoom like Supreme Commander.
+							</li>
+							<li>
+								Something with network programming to gain experience.
+							</li>
+						</ul>
+					</p>
+				</div>
+			</div>
+		</section>
+	</main>
+	<footer>
+		<p>&copy; 2024 Miles Oram. All rights reserved.</p>
+	</footer>
+	<script>
+		// Smooth scrolling for navigation links
+		document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', function (e) {
+				e.preventDefault();
+				document.querySelector(this.getAttribute('href')).scrollIntoView({
+					behavior: 'smooth'
+				});
+			});
+		});
+		// Smooth scrolling for navigation links
+		document.querySelectorAll('navlink a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', function (e) {
+				e.preventDefault();
+				document.querySelector(this.getAttribute('href')).scrollIntoView({
+					behavior: 'smooth'
+				});
+			});
+		});
+	</script>
+	<script>
+		// Stacked gallery functionality
+		document.querySelectorAll('.stacked-gallery').forEach(gallery => {
+			const items = Array.from(gallery.querySelectorAll('.gallery-item'));
+			const prevBtn = gallery.querySelector('.gallery-nav.prev');
+			const nextBtn = gallery.querySelector('.gallery-nav.next');
+
+			function rotateItems(direction) {
+				if (direction === 'next') {
+					items.push(items.shift());
+				} else {
+					items.unshift(items.pop());
+				}
+				updateGallery();
+			}
+
+			function updateGallery() {
+				items.forEach((item, index) => {
+					item.style.zIndex = 5 - index;
+					item.style.top = `${index * 10}px`;
+					item.style.left = `${index * 10}px`;
+				});
+			}
+
+			prevBtn.addEventListener('click', () => rotateItems('prev'));
+			nextBtn.addEventListener('click', () => rotateItems('next'));
+
+			updateGallery();
+		});
+	</script>
+	<script>
+        function createCarousel(containerId, isVideo = false) {
+            const container = document.getElementById(containerId);
+            const carousel = container.querySelector('.carousel');
+            const items = carousel.querySelectorAll('.carousel-item');
+            const prevBtn = container.querySelector('.carousel-nav.prev');
+            const nextBtn = container.querySelector('.carousel-nav.next');
+            const dotsContainer = container.querySelector('.carousel-dots');
+
+            let currentIndex = 0;
+
+            // Create dots
+            items.forEach((_, index) => {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+
+            const dots = dotsContainer.querySelectorAll('.dot');
+
+            function loadVideo(item) {
+                const videoContainer = item.querySelector('.video-container');
+                const videoId = item.dataset.videoId;
+                if (videoId && !videoContainer.querySelector('iframe')) {
+                    videoContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                }
+            }
+
+            function unloadVideo(item) {
+                const videoContainer = item.querySelector('.video-container');
+                if (videoContainer) {
+                    videoContainer.innerHTML = '';
+                }
+            }
+
+            function updateCarousel() {
+                carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+
+                if (isVideo) {
+                    items.forEach(unloadVideo);
+                    loadVideo(items[currentIndex]);
+                }
+            }
+
+            function goToSlide(index) {
+                currentIndex = index;
+                updateCarousel();
+            }
+
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % items.length;
+                updateCarousel();
+            }
+
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + items.length) % items.length;
+                updateCarousel();
+            }
+
+            nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                nextSlide();
+            });
+
+            prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                prevSlide();
+            });
+
+            // Initialize
+            updateCarousel();
+        }
+
+        // Initialize both carousels
+        createCarousel('video-carousel', true);
+        createCarousel('video-carousel2', true);
+        createCarousel('image-carousel');
+        createCarousel('image-carousel2');
+    </script>
+	<script>
+        var modal = document.getElementById("imageModal");
+        var img = document.getElementById("thumbnailImg");
+        var modalImg = document.getElementById("modalImg");
+        img.onclick = function(){
+            modal.style.display = "block";
+            modalImg.src = this.src;
+        }
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function() { 
+            modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

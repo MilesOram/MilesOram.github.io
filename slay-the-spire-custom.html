@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        header {
+			background-color: #000000;
+			color: #ecf0f1;
+			text-align: center;
+			padding: 2rem 0;
+			position: relative;
+			font-size: 36px;
+
+		}
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Monospace Option */
+        .monospace {
+            font-family: 'Courier New', monospace;
+        }
+
+		header h1 {
+			font-size: 2.5rem;
+			margin-bottom: 0.5rem;
+		}
+
+		nav {
+        background-color: #2c3e50;
+        padding: 10px 0;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 2800px; /* Increased from 1000px */
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+            min-width: 0;
+        }
+        .left-group {
+            flex: 3; /* Give more space to the left group */
+        }
+        .right-group {
+            flex: 2; /* Give less space to the right group */
+        }
+        .nav-group h3 {
+            color: #ecf0f1;
+            margin: 0 0 10px 0;
+            font-size: 0.9em;
+            font-weight: normal;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%; /* Ensure the ul takes full width of its container */
+        }
+        .left-group ul {
+            justify-content: flex-end;
+        }
+        .right-group ul {
+            justify-content: flex-start;
+        }
+        nav ul li {
+            padding: 0 10px;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        nav ul li:not(:last-child)::after {
+            content: '|';
+            position: absolute;
+            right: 0;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        nav ul li.no-separator::after {
+            content: none;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            white-space: nowrap;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: white;
+            visibility: hidden;
+            transform: scaleX(0);
+            transition: all 0.3s ease-in-out;
+        }
+        nav ul li a:hover::after {
+            visibility: visible;
+            transform: scaleX(1);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-group {
+                margin: 10px 0;
+                width: 100%;
+            }
+            .left-group, .right-group {
+                flex: 1;
+            }
+            nav ul {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                margin: 5px 0;
+            }
+            nav ul li:not(:last-child)::after {
+                content: none;
+            }
+        }
+
+        .page-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 200vh; /* Double the height to allow scrolling */
+            background: linear-gradient(45deg, #f3e5f5, #e8eaf6, #e3f2fd);
+            z-index: -1;
+        }
+        .color-streak {
+            position: absolute;
+            width: 300vw;
+            height: 200vh;
+            transform: rotate(-45deg);
+            left: -50%;
+        }
+        .color-streak:nth-child(1) {
+            background-color: rgba(255, 87, 34, 0.2);
+            top: 0;
+        }
+        .color-streak:nth-child(2) {
+            background-color: rgba(76, 175, 80, 0.2);
+            top: 50vh;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1700px;
+            margin: 0 auto;
+        }
+        .grid-item {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: 250px; 
+            background-color: rgba(255, 255, 255, 0.7); /* Translucent white background */
+            backdrop-filter: blur(5px); /* Adds a slight blur effect to the background */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .grid-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .image-container {
+            flex: 0 0 45%;
+            position: relative;
+            overflow: hidden;
+        }
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .grid-item:hover .image-container img {
+            transform: scale(1.05);
+        }
+        .caption-container {
+            flex: 0 0 50%;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto; 
+        }
+        .caption-container h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: #333;
+        }
+        .caption-container p {
+            margin: 0;
+            font-size: 0.9em;
+            line-height: 1.4;
+            color: #666;
+        }
+        .keyword {
+            font-weight: bold;
+        }
+        @media (max-width: 350px) {
+            .grid-item {
+                flex-direction: column;
+                height: auto;
+            }
+            .image-container, .caption-container {
+                flex: 0 0 100%;
+            }
+            .image-container {
+                height: 150px; 
+            }
+        } 
+        .relic-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .relic-bubble {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 15px;
+            width: 200px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .relic-bubble:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .relic-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .relic-description {
+            font-size: 0.9em;
+            color: #34495e;
+        }
+        .starting { background-color: #e74c3c; color: white; }
+        .boss { background-color: #f39c12; }
+        .rare { background-color: #3498db; }
+        .uncommon { background-color: #2ecc71; }
+        .shop { background-color: #9b59b6; }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            gap: 30px;
+        }
+        .left-column, .right-column {
+            flex: 1;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .item-name {
+            font-weight: bold;
+            color: #2c3e50;
+            width: 30%;
+            border-right: 2px solid #3498db;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .prose {
+            margin-bottom: 20px;
+        }
+        .info-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+        .info-item strong {
+            display: block;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .home-button {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 1000;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #555;
+        }
+        .smaller-font {
+            font-size: 18px;
+        }
+        .main {
+            max-width: 1400px; /* Adjust this value to your desired maximum width */
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            align-content: center;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-button" aria-label="Home">Home</a>
+    <header class="monospace">
+        Miles Oram | Game Development Portfolio<span class="blink">_</span>
+    </header>
+    <title>Slay the Spire Custom Class</title>
+	<nav>
+		<div class="nav-container">
+			<div class="nav-group left-group">
+				<h3>Write-ups</h3>
+				<ul class="smaller-font">
+					<li><a href="index.html#multi-threaded-engine">Multi-Threaded Game Engine</a></li>
+					<li class="no-separator"><a href="index.html#slay-the-spire-recreation">Slay the Spire:   Recreation</a></li>
+					<li class="no-separator"><a href="index.html#slay-the-spire-ml-project">+ Machine Learning</a></li>
+					<li><a href="index.html#slay-the-spire-custom">+ Custom Class</a></li>
+					<li><a href="index.html#terrain-generation">Procedural Terrain Generation - UE</a></li>
+					<li><a href="index.html#occlusion-culling">Occlusion Culling - Unity</a></li>
+				</ul>
+			</div>
+			<div class="nav-group right-group">
+				<h3>Video Demos</h3>
+				<ul class="smaller-font">
+					<li><a href="index.html#split-screen">Seamless Split-Screen - Unity</a></li>
+					<li><a href="index.html#top-down-action">Top-Down Action - Unity</a></li>
+					<li><a href="index.html#retro-games">Retro Games in a Day</a></li>
+					<li><a href="index.html#old-projects">Old Projects - UE</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <div class="page-background">
+        <div class="color-streak"></div>
+        <div class="color-streak"></div>
+    </div>
+    <div class="main">
+        <h1>SLAY THE SPIRE - CUSTOM CLASS</h1>
+        <p>Capitalised words are usually keywords for a specific effect.</p>
+        <div>
+            <h1>Major mechanics:</h1>
+            <p><span class="keyword">Marks</span> are debuffs Applied to enemies, when that enemy takes attack damage, a Mark is Expended for 'X = half that damage' for one of the following effects:</p>
+            <ul>
+                <li>Damage Mark  - Deal X Damage</li>
+                <li>Block Mark - Gain X Block</li>
+                <li>Vamp Mark - Heal X HP</li>
+                <li>Stun Mark - Stun enemy for 1 turn (stun effect does not stack)</li>
+            </ul>
+            <p>Marks are expended in a set order (the order they are stated above), so if an enemy has 1 Damage, 3 Block, 2 Vamp and 1 Stun Mark, successive instances of damage will Expend Marks in this order: D B B B V V S (there are in-game ways to change this order)</p>
+
+            <p><span class="keyword">Essence</span> is considered a player buff, for each Essence type, when you have 10 or more stacks of it, Consume 10 of that Essence until you have less than 10 (e.g. If you have 0 and Gain 27 Blue Essence, 27->17->7, result is 2 Blue Essence procs with 7 stacks remaining) for one of the following:</p>
+            <ul> 
+                <li>Red Essence - Deal 10 Damage to all enemies</li>  
+                <li>Blue Essence - Gain 10 Block</li>
+                <li>Purple Essence - Apply 1 Weak and 1 Vulnerable to all enemies</li>
+                <li>Yellow Essence - Gain 1 Energy, Draw 1 Card</li>
+            </ul> 
+            <p>Essence is not removed at the end of turn and does not last between fights.</p>
+            <p>
+                <strong>
+                    The main theme for the class is Vampirism - not a million miles away from Ironclad, but encourages strategic HP management.
+                    <br>
+                    The class was designed to be easy to engage with, but also provide depth in maximising the use of the plentiful resources available and strong synergies.
+                </strong>
+            </p>
+
+            <h1>Relics and Potions</h1>
+            <div class="container">
+                <div class="left-column">
+                    <h2>Starting Relic</h2>
+                    <table>
+                        <tr>
+                            <td class="item-name">Blood Pact</td>
+                            <td>Lose 30 Max HP, Gain 1 Max HP on each enemy death</td>
+                        </tr>
+                    </table>
+        
+                    <h2>Boss Relics</h2>
+                    <table>
+                        <tr>
+                            <td class="item-name">Essence Unleashed</td>
+                            <td>
+                                On Essence type Consumed:<br>
+                                • Blue Essence - Gain 5 additional Block<br>
+                                • Red Essence - Deal 5 additional Damage<br>
+                                • Purple Essence - Apply an additional 1 Weak and 1 Vulnerable to each enemy<br>
+                                • Yellow Essence - Draw an additional card
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Marks Unleashed</td>
+                            <td>
+                                On Mark type Expended:<br>
+                                • Damage Mark - 50% chance to heal for half the damage<br>
+                                • Block Mark - 20% chance to stun enemy<br>
+                                • Vamp Mark & Stun Mark - 5% chance to apply Death Mark
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Broken Amulet</td>
+                            <td>+1 energy, If you would gain any amount of Essence, instead gain 1 of that Essence. (Essence amount buffs occur after setting to 1)</td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Garlic</td>
+                            <td>+1 energy, Enemies can no longer gain Damage or Block Marks</td>
+                        </tr>
+                    </table>
+        
+                    <h2>Rare Relics</h2>
+                    <table>
+                        <tr>
+                            <td class="item-name">Incense</td>
+                            <td>Instead of Expending 1 Mark per damage instance, expend all Marks on that enemy</td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Bats</td>
+                            <td>If a Mark would be Removed from an enemy, Expend it for X = 10</td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Obsidian Ring</td>
+                            <td>Heal 1 HP every 50 Essence Consumed</td>
+                        </tr>
+                    </table>
+        
+                    <h2>Uncommon Relics</h2>
+                    <table>
+                        <tr>
+                            <td class="item-name">Blood-soaked Cloak</td>
+                            <td>Gain 1 energy every 4 Marks Expended</td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Chromatic Orb</td>
+                            <td>At start of turn, for each Essence type you have 9 stacks of, gain 10 of that Essence</td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Ancient Virus</td>
+                            <td>When an enemy dies, move all Marks that were on it to another random enemy</td>
+                        </tr>
+                    </table>
+        
+                    <h2>Shop Relic</h2>
+                    <table>
+                        <tr>
+                            <td class="item-name">Shroud</td>
+                            <td>At end of turn, deal 4 damage to each Marked enemy</td>
+                        </tr>
+                    </table>
+                </div>
+        
+                <div class="right-column">
+                    <h2>Potions</h2>
+                    <table>
+                        <tr>
+                            <td class="item-name">Paralysis Potion</td>
+                            <td>Stun target enemy</td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Chromatic Potion</td>
+                            <td>Gain 10 red and 10 blue essence</td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Bottled Epiphany</td>
+                            <td>3 charges, cycle the order in which marks are expended (DBVS -> BVSD -> VSDB -> SDBV -> DBVS)</td>
+                        </tr>
+                    </table>
+        
+                    <h2>Additional Information</h2>
+                    <div class="prose">
+                        <p><strong>Starting Deck</strong>- Strike x5, Brace x2, Bolster x2, Blood Frenzy x1, Relic = Blood Pact</p>
+        
+                        <p>
+                            Parallel Essence was the main pillar for the two sets of mechanics: each essence type maps onto a mark type (Red-Damage, Blue-Block, Purple-Vamp, Yellow-Stun).
+                            <br> 
+                            Easier to learn each system since they mirror each other so closely: 1 Damage effect, 1 Block effect and 2 uniques.
+                        </p>
+        
+                        <p>
+                            <strong>Cards</strong> are grouped by type: Attacks, Powers, Skills. 
+                            Within each they are ordered by rarity: Common (Grey), Uncommon (Blue), Rare (Gold). 
+                            <br>
+                            () brackets denote the effect of upgrading a card. 
+                            [] brackets contain a calculated value. Energy cost is in the top left. 
+                            <br>
+                            Card names were designed to be as thematic as possible. 
+                            The distribution of types, costs, rarities across the card pool, as with potions and relics, is designed to be in line with the other classes in the game.
+                        </p>
+        
+                        <p>
+                            A few interesting comments about how this class interacts with base game mechanics. 
+                            Since almost all block is gained indirectly, the player is effectively immune to Frail (decreases block gain). 
+                            <br>
+                            Meanwhile being weakened (decreases attack) severely hampers the effectiveness of marks but not essence. 
+                            Dexterity gains or losses (add/sub to block gained) have almost no effect on the player as well. 
+                            Low max HP makes being vulnerable (take more damage) a lot more risky. 
+                        </p>
+                        <p>
+                            With proper balance of the class, these aren't major issues, however there are a few relics in the base game which e.g. give +1 dexterity, which would likely be better off being removed/replaced for this class. 
+                            Marks might also be too inconsistent - very lacklustre if damage output is low (e.g. while weakened) and overpowered when it's high (+strength and enemy vulnerable). 
+                            So long as this feels like it's in the player's hands as opposed to RNG, this should be ok.
+                        </p>
+                        <p>
+                            <strong>
+                                The following cards each come with a comment on either general design philosophy, interesting interactions or an explanation of that card.
+                            </strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid-container">
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AC0_CautiousStrike.png" alt="AC0_CautiousStrike">
+            </div>
+            <div class="caption-container">
+                <p>The ordering of marks and damage in card text is very important, damage will immediately expend a mark unless the enemy has sufficient block. An enemy's block presents opportunity to stack marks for later.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AC1_Fundamentals.png" alt="AC1_Fundamentals">
+            </div>
+            <div class="caption-container">
+                <p>Thematically works as a card which rewards rejecting a main class mechanic, reminiscent of base game cards. Splitting damage into multiple instances is more important here than the base game because of expending marks.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AC1_Puncture.png" alt="AC1_Puncture">
+            </div>
+            <div class="caption-container">
+                <p>Blue essence works as a sort of block storage, any card with essence value less than 10 gives you the option of preparing for a later turn.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AC1_Rake.png" alt="AC1_Rake">
+            </div>
+            <div class="caption-container">
+                <p>Cards with low essence amounts can synergise well with anything that triggers off essence gain and so gain utility as your build progresses.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AC1_Strike.png" alt="AC1_Strike">
+            </div>
+            <div class="caption-container">
+                <p>Strike is a staple, also note that there are several card names here which include 'Strike', so as to interact with the relic which increases damage of cards with 'Strike' in the name.</p>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AC1_StunningGlance.png" alt="AC1_StunningGlance">
+            </div>
+            <div class="caption-container">
+                <p>Stunning is extremely strong, so it's coupled with the minimum damage required to expend the mark. in theory you can nerf stun marks by never giving them with damage, it's needlessly conservative and boring to never let the player execute a stun in one card, meanwhile stun marks are the last to be expended in the DBVS order.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AC2_BloodFrenzy.png" alt="AC2_BloodFrenzy">
+            </div>
+            <div class="caption-container">
+                <p>This card is in the starting deck to encourage players to be fine with trading HP and regaining it through effects like Vamp Marks. Also to provide the sustain to escape the early game.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AC2_CalculatedBarrage.png" alt="AC2_CalculatedBarrage">
+            </div>
+            <div class="caption-container">
+                <p>Marks and Essence are frequently used instead of 'draw a card' or 'gain block' since they give new axes for synergy.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AC2_PreemptiveFlurry.png" alt="AC2_PreemptiveFlurry">
+            </div>
+            <div class="caption-container">
+                <p>Providing enough Common damage options for the early game is important, especially for higher ascensions.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AC2_Ravage.png" alt="AC2_Ravage">
+            </div>
+            <div class="caption-container">
+                <p>High and consistent damage output but at the cost of stacking a lot of marks on enemies, or potentially can be used advantageously to setup a stun mark.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AU1_Exploit.png" alt="AU1_Exploit">
+            </div>
+            <div class="caption-container">
+                <p>Similar to the Defect card which draws off unique orbs, a simple but strong reward for committing to marks (also the draw occurs before the damage and hence before any marks are removed).</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AU1_GlaringSwipe.png" alt="AU1_GlaringSwipe">
+            </div>
+            <div class="caption-container">
+                <p>Yellow essence is very strong, card draw and energy are the main barriers to infinites, although 5 essence is useless on its own and seems low, this card's interaction with itself is very important, you can go infinite with two of this card and some of the powers (and a small deck).</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AU1_PrecisionTwirl.png" alt="AU1_PrecisionTwirl">
+            </div>
+            <div class="caption-container">
+                <p>This is the first Mark Shard creator, mark shards follow the same vein of shivs from Silent in the base game, offering a lot of flexibility and card play triggers, with a suitable amount of randomness here as well.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AU2_RitualStrike.png" alt="AU2_RitualStrike">
+            </div>
+            <div class="caption-container">
+                <p>Fatal effects from the base game were a great inclusion.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AU2_SwirlingRift.png" alt="Image 15">
+            </div>
+            <div class="caption-container">
+                <p>Purple Essence before the damage is important for applying vulnerable to boost damage.</p>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AU3_IncisiveBlast.png" alt="Image 16">
+            </div>
+            <div class="caption-container">
+                <p>Provides damage through all of the 3 main vectors, fun card with high damage output.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AU5_RecklessAssault.png" alt="Image 17">
+            </div>
+            <div class="caption-container">
+                <p>This is a difficult card to balance, when it's expensive, the card draw will be worthless (since you have no energy) and the damage mediocre for its cost. Note that it's not each unique mark, it's each mark, so discounting should not be too hard.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AY0_WitsEnd.png" alt="AY0_WitsEnd">
+            </div>
+            <div class="caption-container">
+                <p>Not as strong as it looks, likely to only be too strong if you have it turn 1 in some of the Act 2 fights. Great for expending marks, maybe could do with a counter that removes it from your deck after X number of plays.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AY1_ImbuedStrike.png" alt="AY1_ImbuedStrike">
+            </div>
+            <div class="caption-container">
+                <p>This is the first instance of requiring a specific number of essence stacks, the values of each essence gain become important but the maths is always simple as they cap at 10. Follows the philosophy that it shouldn't be too tedious to play 'correctly' - you get value from just playing good cards, but you can squeeze out more if you spend the time.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AY1_PinnacleStrike.png" alt="AY1_PinnacleStrike">
+            </div>
+            <div class="caption-container">
+                <p>Difficult to pull off but with a big payoff, in some decks you're unlikely to be able to do this twice in a fight, so it having Exhaust is mostly a buff, the hardest part of this is the stun mark. The requirements might be too specific, but one-off niche rares are fine.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AY2_BloodthirstyRage.png" alt="AY2_BloodthirstyRage">
+            </div>
+            <div class="caption-container">
+                <p>Outlet for having a lot of marks stacked on an enemy, there need to be enough cards which rebalance decks between high damage instances and few marks and vice versa.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/AY3_ChromaticSurge.png" alt="AY3_ChromaticSurge">
+            </div>
+            <div class="caption-container">
+                <p>Effects that scale with damage dealt are always interesting because of strength, weak, vulnerable etc., this is a pinnacle all-rounder card, offering damage, block, card draw and energy, especially strong when upgraded.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/PU0_InstinctualRecall.png" alt="PU0_InstinctualRecall">
+            </div>
+            <div class="caption-container">
+                <p>Since this costs 0, it's fairly low impact but useful in some cases, the idea is that exhaust cards are single use and often best saved for the right moment, this lets you keep them for that moment and not wait for them to come back around. (Mistake: This card is supposed to itself have Innate)</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/PU1_Abjuration.png" alt="PU1_Abjuration">
+            </div>
+            <div class="caption-container">
+                <p>Paired with Conjuration, sacrifice damage through essence for block, flips the meanings of cards with red essence, not too much to overcomplicate, but adds variety.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/PU1_ConcertedEffort.png" alt="PU1_ConcertedEffort">
+            </div>
+            <div class="caption-container">
+                <p>Reminiscent of Feel No Pain (gain block on exhaust), in exchange for being a strong option for damage mitigation, gaining block is a dead end, there are no block synergies in this class.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/PU1_Conjuration.png" alt="PU1_Conjuration">
+            </div>
+            <div class="caption-container">
+                <p>Paired with Abjuration, given the strength of yellow essence, every effect that grants purple essence was tuned for this.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/PU1_OpeningGambit.png" alt="PU1_OpeningGambit">
+            </div>
+            <div class="caption-container">
+                <p>Innate (start with it in your opening hand) makes this very strong and the upgrade is a huge boost. Whilst this effect is very powerful, it does not work well with effects that require exactly 8 or 9 essence for example. It also makes cards with low essence gains feel more useful.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/PU2_Attuned.png" alt="PU2_Attuned">
+            </div>
+            <div class="caption-container">
+                <p>This is one of the strongest cards, it enables infintes with yellow essence and is a massive boost to essence effects. It was, however, designed in the context of the power caps of the base game classes. You have a lot more resources at your disposal but still have to use them properly.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/PU2_Feast.png" alt="PU2_Feast">
+            </div>
+            <div class="caption-container">
+                <p>Regular mark application is important for a lot of decks, thematically it's great too.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/PY2_Ambition.png" alt="PY2_Ambition">
+            </div>
+            <div class="caption-container">
+                <p>This card is fairly weak when not upgraded. There should be a heathy variance of the impact of different card upgrades such that if you can guarantee an upgrade very soon, you have a great option open to you.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/PY2_Relentless.png" alt="PY2_Relentless">
+            </div>
+            <div class="caption-container">
+                <p>There should always be powers to prop up and support decks which focus on engaging with a specific mechanic really well.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/PY2_Unstoppable.png" alt="PY2_Unstoppable">
+            </div>
+            <div class="caption-container">
+                <p>On the surface this looks too strong, but it requires a mixed deck, which makes it difficult to also make the most out of the strength gain. Remember that essence doesn't benefit from strength at all, and this needs consistent essence gain to trigger.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/PY3_InfernalForm.png" alt="PY3_InfernalForm">
+            </div>
+            <div class="caption-container">
+                <p>Each class in the base game has a rare 3 cost power 'X Form' which closely follows the themes of the class. There is an interesting interaction with deliberately saving minions in boss fights to sustain this on later turns.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/PY3_SanguineVortex.png" alt="PY3_SanguineVortex">
+            </div>
+            <div class="caption-container">
+                <p>The way that doubling or tripling essence values carries over to the next turn is interesting, and incentivises maintaining high stacks for each essence.</p>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/PY4_UnbrokenFocus.png" alt="PY4_UnbrokenFocus">
+            </div>
+            <div class="caption-container">
+                <p>Both this card and the previous are the premium expensive top-end for their respective mechanics. Variety in energy costs is important such that boss relics which give additional energy are sufficiently useful.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SC1_Bolster.png" alt="SC1_Bolster">
+            </div>
+            <div class="caption-container">
+                <p>Some number of cards which overlap marks and essence are important to keep your options open, there are a lot of opportunities to cannibalise all but a specific part of marks/essence for upside.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SC1_Brace.png" alt="SC1_Brace">
+            </div>
+            <div class="caption-container">
+                <p>Starter card to replace defend along with Bolster.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SC1_FortifiedRetreat.png" alt="SC1_FortifiedRetreat">
+            </div>
+            <div class="caption-container">
+                <p>Paired with Ravenous Retreat, I like these pair designs, it makes it easier to find patterns in the card pool and remember the cards.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SC1_Infusion.png"st alt="SC1_Infusion">
+            </div>
+            <div class="caption-container">
+                <p>Two instances of essence gain are important here for power synergies.</p>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SC1_Possibility.png" alt="SC1_Possibility">
+            </div>
+            <div class="caption-container">
+                <p>This might be too strong, but it's the kind of card I would always pick and enjoy, its inconsistency is the only downside, at any rate it's very strong for common.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SC1_RavenousRetreat.png" alt="SC1_RavenousRetreat">
+            </div>
+            <div class="caption-container">
+                <p>Paired with Fortified Retreat, another chance to trade marks for essence.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SC1_WildEye.png" alt="SC1_WildEye">
+            </div>
+            <div class="caption-container">
+                <p>Similar to Possibility, it's important to be careful about adding unnecessary or excessive randomness to the game, the important thing here is you get something useful no matter what, so the range of variance isn't too wide.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SC2_PrimalFocus.png" alt="SC2_PrimalFocus">
+            </div>
+            <div class="caption-container">
+                <p>This is an innate card that would work well with an upgraded Instinctual Recall (Retain for Innate cards).</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SC2_PrismaticInstinct.png" alt="SC2_PrismaticInstinct">
+            </div>
+            <div class="caption-container">
+                <p>The only thing that Essence as an archetype lacks is lifegain, this card offers setups for every avenue.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SC3_FatefulAbsorption.png" alt="SC3_FatefulAbsorption">
+            </div>
+            <div class="caption-container">
+                <p>The idea was to support 5 roughly discrete paths for builds: only marks, only essence, main one and splash the other, or a full hybrid build. Parallel essence is supposed to support the top end for a mixed build.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SU0_Mutate.png" alt="SU0_Mutate">
+            </div>
+            <div class="caption-container">
+                <p>Stun marks are arguably too strong to have in the pool by default, the idea here is to help you dig for a card which grants mark shards, whilst not being a detriment if you can't find it. 9/10 times, 0-cost draw 1 is neutral, and most decks would take a 0-cost draw 2.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SU1_Anticipation.png" alt="SU1_Anticipation">
+            </div>
+            <div class="caption-container">
+                <p>Important to balance single target vs. AoE across the card pool.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SU1_EthericEvasion.png" alt="SU1_EthericEvasion">
+            </div>
+            <div class="caption-container">
+                <p>Upgrades from 1-cost to 0-cost are always a positive experience for the player.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SU1_Refine.png" alt="SU1_Refine">
+            </div>
+            <div class="caption-container">
+                <p>Similar to 'Recycle' from Defect. The player has to have ways to exhaust status cards from enemies. Meanwhile offers a means to thin the deck for infinites.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SU1_VampiricArsenal.png" alt="SU1_VampiricArsenal">
+            </div>
+            <div class="caption-container">
+                <p>Designed with Mutate in mind (adds stun mark to the pool).</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SU2_Clarity.png" alt="SU2_Clarity">
+            </div>
+            <div class="caption-container">
+                <p>Consistent high mark output for enabling synergies.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SUX_Spectrum.png" alt="SUX_Spectrum">
+            </div>
+            <div class="caption-container">
+                <p>X cost cards are great for rewarding high energy decks, it's also important to consider how this class interacts with all the relics and potions shared between classes.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SY0_RevampedApproach.png" alt="SY0_RevampedApproach">
+            </div>
+            <div class="caption-container">
+                <p>Maybe my favourite card in the pool, everything about it is conducive to fun gameplay.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SY1_Consume.png" alt="SY1_Consume">
+            </div>
+            <div class="caption-container">
+                <p>There are a few cards in the base game where upgrades aren't strict improvements, the card sort of morphs into a different role, this is a great version of this by adding card draw and exhaust.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SY1_MarkedForDeath.png" alt="SY1_MarkedForDeath">
+            </div>
+            <div class="caption-container">
+                <p>Death Marks are supposed to be rare and the strongest of the marks, the damage it deals might need tuning, so might the number of marks required by this card.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SY3_Immobilise.png" alt="SY3_Immobilise">
+            </div>
+            <div class="caption-container">
+                <p>This potentially applies 2 stun marks to each enemy, hence why it is a rare 3-cost that exhausts, universally stacking more Marks has a ton of synergy benefits as well.</p>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SY3_Trinity.png" alt="SY3_Trinity">
+            </div>
+            <div class="caption-container">
+                <p>Maybe the upgrade should Heal you for 3 on playing instead of reducing the cost. Or even heal you on upgrade, might be cool to have cards that grant maxHP or gold as a result of the upgrade process.</p>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SZC0_BlockMarkShard.png" alt="SZC0_BlockMarkShard">
+            </div>
+            <div class="caption-container">
+                <p>Block Mark Shard. These are deliberately ethereal and exhaust cards, they shouldn't cycle round to bloat your deck, they should be a free one-off cast.</p>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SZC0_DamageMarkShard.png" alt="SZC0_DamageMarkShard">
+            </div>
+            <div class="caption-container">
+                <p>Damage Mark Shard.</p>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SZC0_VampMarkShard.png" alt="SZC0_VampMarkShard">
+            </div>
+            <div class="caption-container">
+                <p>Vamp Mark Shard.</p>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="image-container">
+                <img src="img/STS_Custom/SZU0_StunMarkShard.png" alt="SZU0_StunMarkShard">
+            </div>
+            <div class="caption-container">
+                <p>Stun Mark Shard.</p>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h2>All Cards</h2>
+        <div style="background-color: #e1f6ff; display: inline-block;">
+            <img src="img/STS_Custom/_ALL_CARDS.png" alt="all">
+          </div>
+    </div>
+    <script>
+		// Smooth scrolling for navigation links
+		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', function (e) {
+				e.preventDefault();
+				document.querySelector(this.getAttribute('href')).scrollIntoView({
+					behavior: 'smooth'
+				});
+			});
+		});
+	</script>
+</body>
+</html>

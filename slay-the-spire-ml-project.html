@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            font-size: 20px;
+        }
+        header {
+			background-color: #000000;
+			color: #ecf0f1;
+			text-align: center;
+			padding: 2rem 0;
+			position: relative;
+			font-size: 36px;
+
+		}
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Monospace Option */
+        .monospace {
+            font-family: 'Courier New', monospace;
+        }
+
+		header h1 {
+			font-size: 2.5rem;
+			margin-bottom: 0.5rem;
+		}
+
+		nav {
+        background-color: #2c3e50;
+        padding: 10px 0;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 2800px; /* Increased from 1000px */
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+            min-width: 0;
+        }
+        .left-group {
+            flex: 3; /* Give more space to the left group */
+        }
+        .right-group {
+            flex: 2; /* Give less space to the right group */
+        }
+        .nav-group h3 {
+            color: #ecf0f1;
+            margin: 0 0 10px 0;
+            font-size: 0.9em;
+            font-weight: normal;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%; /* Ensure the ul takes full width of its container */
+        }
+        .left-group ul {
+            justify-content: flex-end;
+        }
+        .right-group ul {
+            justify-content: flex-start;
+        }
+        nav ul li {
+            padding: 0 10px;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        nav ul li:not(:last-child)::after {
+            content: '|';
+            position: absolute;
+            right: 0;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        nav ul li.no-separator::after {
+            content: none;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            white-space: nowrap;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: white;
+            visibility: hidden;
+            transform: scaleX(0);
+            transition: all 0.3s ease-in-out;
+        }
+        nav ul li a:hover::after {
+            visibility: visible;
+            transform: scaleX(1);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-group {
+                margin: 10px 0;
+                width: 100%;
+            }
+            .left-group, .right-group {
+                flex: 1;
+            }
+            nav ul {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                margin: 5px 0;
+            }
+            nav ul li:not(:last-child)::after {
+                content: none;
+            }
+        }
+
+        .page-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 200vh; /* Double the height to allow scrolling */
+            background: linear-gradient(45deg, #f3e5f5, #e8eaf6, #e3f2fd);
+            z-index: -1;
+        }
+        .color-streak {
+            position: absolute;
+            width: 300vw;
+            height: 200vh;
+            transform: rotate(-45deg);
+            left: -50%;
+        }
+        .color-streak:nth-child(1) {
+            background-color: rgba(255, 87, 34, 0.2);
+            top: 0;
+        }
+        .color-streak:nth-child(2) {
+            background-color: rgba(76, 175, 80, 0.2);
+            top: 50vh;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1700px;
+            margin: 0 auto;
+        }
+        .grid-item {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: 250px; 
+            background-color: rgba(255, 255, 255, 0.7); /* Translucent white background */
+            backdrop-filter: blur(5px); /* Adds a slight blur effect to the background */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .grid-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .image-container {
+            flex: 0 0 45%;
+            position: relative;
+            overflow: hidden;
+        }
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .grid-item:hover .image-container img {
+            transform: scale(1.05);
+        }
+        .caption-container {
+            flex: 0 0 50%;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto; 
+        }
+        .caption-container h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: #333;
+        }
+        .caption-container p {
+            margin: 0;
+            font-size: 0.9em;
+            line-height: 1.4;
+            color: #666;
+        }
+        .keyword {
+            font-weight: bold;
+        }
+        @media (max-width: 350px) {
+            .grid-item {
+                flex-direction: column;
+                height: auto;
+            }
+            .image-container, .caption-container {
+                flex: 0 0 100%;
+            }
+            .image-container {
+                height: 150px; 
+            }
+        } 
+        .relic-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .relic-bubble {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 15px;
+            width: 200px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .relic-bubble:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .relic-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .relic-description {
+            font-size: 0.9em;
+            color: #34495e;
+        }
+        .starting { background-color: #e74c3c; color: white; }
+        .boss { background-color: #f39c12; }
+        .rare { background-color: #3498db; }
+        .uncommon { background-color: #2ecc71; }
+        .shop { background-color: #9b59b6; }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            gap: 30px;
+        }
+        .left-column, .right-column {
+            flex: 1;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .item-name {
+            font-weight: bold;
+            color: #2c3e50;
+            width: 30%;
+            border-right: 2px solid #3498db;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .prose {
+            margin-bottom: 20px;
+        }
+        .main {
+            max-width: 1400px; /* Adjust this value to your desired maximum width */
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            align-content: center;
+            text-align: justify;
+        }
+        .home-button {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 1000;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #555;
+        }
+        .smaller-font {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-button" aria-label="Home">Home</a>
+    <header class="monospace">
+        Miles Oram | Game Development Portfolio<span class="blink">_</span>
+    </header>
+    <title>Slay the Spire Machine Learning</title>
+	<nav>
+		<div class="nav-container">
+			<div class="nav-group left-group">
+				<h3>Write-ups</h3>
+				<ul class="smaller-font">
+					<li><a href="index.html#multi-threaded-engine">Multi-Threaded Game Engine</a></li>
+					<li class="no-separator"><a href="index.html#slay-the-spire-recreation">Slay the Spire:   Recreation</a></li>
+					<li class="no-separator"><a href="index.html#slay-the-spire-ml-project">+ Machine Learning</a></li>
+					<li><a href="index.html#slay-the-spire-custom">+ Custom Class</a></li>
+					<li><a href="index.html#terrain-generation">Procedural Terrain Generation - UE</a></li>
+					<li><a href="index.html#occlusion-culling">Occlusion Culling - Unity</a></li>
+				</ul>
+			</div>
+			<div class="nav-group right-group">
+				<h3>Video Demos</h3>
+				<ul class="smaller-font">
+					<li><a href="index.html#split-screen">Seamless Split-Screen - Unity</a></li>
+					<li><a href="index.html#top-down-action">Top-Down Action - Unity</a></li>
+					<li><a href="index.html#retro-games">Retro Games in a Day</a></li>
+					<li><a href="index.html#old-projects">Old Projects - UE</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <div class="page-background">
+        <div class="color-streak"></div>
+        <div class="color-streak"></div>
+    </div>
+    <div class="main">
+        <h1>SLAY THE SPIRE - MACHINE LEARNING</h1>
+        <h2>Preface:</h2>
+        <p>
+            For this project, I created a C++ replica of Slay the Spire, a popular roguelike deckbuilder. The replica is as close to a 1:1 recreation of the game as is feasible, and currently consists of all 4 acts, and the full experience for the first character, Ironclad.
+            The game was originally designed to allow a user to interact with, and play through the full game. However it evolved into a Deep Reinforcement Learning (RL) project using multiple TensorFlow models (Python, pybind11) to autonomously learn, play and win the game.
+            As the sole contributor to this project, I was responsible for the design, development and testing of the game and used only the 
+            <a href="https://slay-the-spire.fandom.com/wiki/Slay_the_Spire_Wiki"a>Wiki</a>, and my knowledge from playing the game to build it. The goal was to design the game without influence or knowledge of the game's code.
+        </p>
+        <p>
+            See <a href="slay-the-spire-ml-project.html" >C++</a> part of the project
+        </p>
+        <h2>Project Overview - A Retrospective:</h2>
+        <p>
+            This is probably the project I was most proud to complete; starting with no ML knowledge, learning from the ground up and finishing with a successful model was incredibly rewarding.
+            It seemed like a near impossible task for me at the beginning but a lot of the work was inspired by <a href="https://cdn.openai.com/dota-2.pdf">OpenAI's Paper on Dota 2</a>. 
+            Given the rapid development of AI these days, if beating games was at the top of the major companies' lists, we would likely have models capable of playing at superhuman levels in every game.
+            As progress continues, the work here will become more and more trivialised but it will always be the project where I felt most like I was pioneering something.
+        </p>
+        <p>
+            In terms of the scale of the problem, playing at the highest level here is orders of magnitude more complex than something like chess (you can approximate this).
+            With my limited available compute, the goal was simply to beat the game at its base difficulty without fluke. 
+            In theory you can completely split decision-making into: micro (in-fight) and macro (out-of-fight) decisions, but in practice, good players will be considering both at all times.
+            Given the nature of all decisions across the game, there could not be a one-size-fits-all model, therefore the multiple models would need some way to communicate/interact or at least extract knowledge from each other.
+            Finding the right approach required a lot of problem-solving and many iterations.
+            The final result included three distinct models:
+            <ul>
+                <li>Micro model - Deep Q-Learning Network using RL, handles all in-fight decisions, outputs the decision leading to the highest expected reward</li>
+                <li>Macro model - Traditional Neural Network, handles all out-of-fight decisions, outputs the expected floor the run will end at for the given game state</li>
+                <li>Prediction model - Traditional Neural Network, extracts the expected HP loss for any given fight for the given game state, feeds into the Macro model</li>
+            </ul>
+            Efficiently representing the game state as a Markov state was a non-trivial task, but feeding the state into the Micro model directly outputs the best decision.
+            The Macro model is not quite as straight-forward.
+            Given the massive variety of forms these decisions can take, making a DQN did not seem feasible.
+            Instead it simulates the result of each decision available, evaluates this state for its expected end floor (floors 1-50, 50=end), then rolls back to choose the option with the highest end floor.
+            The Prediction model was trained on the Micro model's HP loss for each fight and was used as a proxy for the performance for a given fight.
+            It feeds into the Macro model to aid in accuracy.
+        </p>
+        <p>
+            Ultimately, the project succeeded in beating the game over 100 times before training was stopped.
+            Despite all of the ways it could be improved, it was a great success overall.
+        </p>
+        </p>
+        <h2>Proof of Concept - Starting Small:</h2>
+        <p>
+            The first goal was to build a model to pilot a fixed deck, and beat one of the first fights in the game with as much health remaining as possible. Randomly playing cards until out of energy each turn resulted in 59.3 +/- 7.1 HP remaining (intuit this as an average with spread as opposed to error on a 'true' value, the nature of the fight prohibits continuous data treatment). My personal testing reached 73.6 +/- 3.1 HP. A small DQN of 2 layers of size 24 was constructed, everything was simplified, inputs were discretized (e.g. strength of +5, +10, +15 were converted to 3 bools) and around 20 input variables represented the Markov state. Each action corresponded to playing each unique card, or ending turn (masking out unavailable options) giving 5 possible actions. Reward structure was varied a lot throughout the entire project; the core idea was to avoid strategic rewards that might bias towards a certain playstyle, in order to allow the model to find its own way. Therefore generally, all rewards were minimal aside from a reward at the end of the fight representing the amount of health remaining. Training and hyperparamter optimization resulted in 72.1 +/- 2.8 HP, a conceptual success and a solid starting point, especially for a small model.
+        </p>
+        <h2>Pillars and Goals:</h2>
+        <p>
+            Avoid compromises wherever possible. It seemed like the worst way to start a ML project like this is to exclude or not account for features of the gamestate that are difficult to process. There were always going to be challenges too far out of reach, so taking shortcuts where unnecessary would undermine the prospects of the model to learn. As with the C++ side, I was never certain how far the project would go, but the lofty goal in mind was to, at least once, beat the game fully autonomously. As a human, games typically last upwards of 45-60 minutes, between 1 and 2 hours with careful thought, and more with extensive thought. Beating the game would not be a fluke result, even when making full use of strong mechanics, careful pathing and competent deck piloting is still required. Almost all of the few thousand decision points in a full run are meaningful and impactful.
+        </p>
+        <h2>Technical Design:</h2>
+        <p>
+            All the decisions in a run of the game can be divided into three categories: hard-coded responses (used sparingly and primarily for simple or rng random map events), micro fight decisions (every decision made during fights) and macro run decisions (everything remaining outside of fights). Micro decisions are governed by a DQN which gives an approximation of the future expected reward for playing each card. Multi-step cards (cards that require you to choose a target or card after casting) are simulated when chosen, and the most optimal sub-decision is chosen. The macro model makes use of two traditional NNs: one that gives the expected health loss and a measure of variance for every fight in the game, and the other that gives the expected end floor. The expected health losses feed into the main macro model for expected end floor, which is used to evaluate simulated macro decisions and act optimally. The machine learning side is written in python and integrated with use of the pybind11 library.
+        </p>
+        <img src="img/STS_ML/MicroModel.PNG" alt="" width="100%">
+        <p>
+            Micro: Input size: 1325. Action space size: 296. Total trainable parameters: ~18,000,000. Uses Mean Squared Error (MSE) loss function and Adam optimizer. 
+
+            Macro: Input size: 878. Action space size: 1. Total trainable parameters: ~9,000,000. Uses Huber loss function and Adam optimizer. 
+        </p>
+        <h2>Model Training (Micro):</h2>
+        <p>
+            It is difficult to pinpoint the internal weak points of large NNs like this without extensive research. Aside from analysing the embedding layers, the only real metric for evaluating progress is the end health after each fight. Hence model improvement was defined by increases in average end healths over large samples. You could spend an inordinate amount of time working on other measures of progress and 'correct' decision making, but the nature of the game prohibits straight-forward 'this is always good' statements in a lot of cases.
+            <ol style="list-style-type: decimal;">
+                <li> Curriculum learning: The model struggled when thrown into the deep end of random decks across all fights. The root idea behind curriculum learning is to allow the model to learn a concrete understanding of the more simplistic facets of the game and avoid premature convergence to suboptimal policies. The method was employed in two ways: the first, six stages were created, each of increasing difficulty.
+                <ol type="i">
+                    <li> 
+                    First fights only, starter deck with 0-2 potions, 0-2 random extra cards.
+                    </li><li> First act only, not boss, premade decks each leaning into synergies/combos, random potions and colourless cards added.
+                    </li><li> All first act enemies, some additional premades, random cards/relics removed to check ability without necessary synergetic pieces, replaced with randoms.
+                    </li><li> Act 1 and 2, no boss, mixture of premades and randomly generated within appropriate bounds
+                    </li><li> All act 1, 2 and 3, all random  
+                    </li><li> All acts (including act 4), all random decks, except mixed with premades for the hardest end bosses.</li>
+                </ol>
+                Evidently, synergetic decks and random generation do not go hand in hand. Likewise a pile of cards, relics and potions often isn't enough to best the end fights of a run. The idea was to build a model that was capable in any situation, but also give it some practice with the more complex late game archetypes like exhausting to infinites. The secondary expression of curriculum learning was simply to give the character bonus health, and gradually reduce the starting health for each fight to better reflect realistic situations.</li>
+                <li> Double DQN: A fairly simple method to improve stability and provide more explicit increments for training progression. Two models are used in tandem, one is used for the decision making whilst the other is trained and updated. At specified intervals the decision-making model is updated to have the same weights as the target model. The model was, at times, plagued by exploding losses and diverging rewards. Double DQN and adjusting the gamma value addressed these issues.</li>
+                <li> Gamma value: Gamma can be intuited as how far ahead you want your model to think, it scales down the impact of future rewards. Given that the primary reward occurs at the end of a fight, higher gamma values are preferable. Exploding losses required a lower gamma value for model stability. Otherwise gamma should only be limited to aptly reflect the randomness in the game; the model should only look as far ahead as it can predict with sufficient statistical accuracy.</li>
+                <li> Exploration vs. exploitation: two things about the game are relevant here; first, there is a caveat to almost every 'bad' choice that makes it sometimes correct, this includes ending your turn early. Second is that ending your turn early in most cases is the fastest way to die and it is always an option. Traditional exploration uses a decreasing term, epsilon, to enable random decision making. Statistically, this random outcome is going to be 'end turn' more often than any other. In ~95%+ of cases, ending turn early can make the entire fight fruitless for learning and exploration. So I developed an alternative random decision maker, still governed by epsilon. It is somewhat akin to creating soft max values for each action, each q-value is translated to a weight for how often that option is randomly selected. The function was built to emulate my intuition for how often each action should be chosen, based on its q-value. Ending turn would be chosen much less frequently and the model could mostly focus on discerning between the two or three best options.</li>
+                <li> Embedding sizes: Typically embedding sizes are no smaller than 50. There are general rules but it's largely case specific. An intuitive way to think about embeddings in this case is to imagine each output as a descriptor of a singular card feature, whether that be its type: attack, skill, power, or how much damage it does, how many cards it draws, exhaust synergy etc. On investigating dot products for each card's embedding output, originally using size 50 seemed insufficient, likewise for enemy-intent embedding. Similarities which should have been present, were not. Using size 100 proved too complex for the model, likely due to the nature of the containers and data augmentation, it was too difficult to learn features and relationships. Size 80 permitted the model to flourish, whilst also demonstrating a large portion of the expected relationships when evaluating dot products.</li>
+            </ol>
+        </p>
+        <h2>Challenges and Solutions:</h2>
+        <p><ol>
+            <li> Structuring Inputs
+            <p>
+            For the micro, the problem of aptly representing the cards in your hand, deck, draw, discard and exhaust is non-trivial. It seemed that using a trainable embedding layer to treat each card categorically would be beneficial so the model could implicitly learn the functions and similarities of cards. However since only the hand has a limited size (10), and the rest of the locations are technically unlimited in size, coupled with the fact that their order is sometimes known, sometimes random, sometimes relevant and sometimes not, it seemed best to use counts for each card in each location. When using counts, you cannot capture any temporary energy cost or card stat changes, but this was the best compromise to avoid an excessive amount of padding for the other locations. Meanwhile the cards in hand (which are the most relevant) can maintain this information.
+            </p><p>
+            For the macro, the only hard part is finding a way to represent the node map. The idea was to find a discretized but not overly simplified representation of all the potential paths, whilst not over-processing or bloating the input too much. There are three main factors influencing path choice: flexibility, safety, and potential resource acquisition. So at each floor, every path permutation is re-evaluated for its merit in these three categories and provided alongside a one hot representation of the immediate upcoming floors and other relevant info. The alternative to this would be a more shortsighted approach but, given that it was not too computationally expensive, having the best full path in mind seemed sensible.
+            </p></li>
+            <li> Complex/Multi-step decisions
+            <p>
+            For micro, any time a card is played and requires a subsequent decisions, this is a deviation from the base model's action space, which evaluates future expected rewards for each of the 131 cards and their upgraded versions, or ending turn. At the time of deciding how to deal with these multi-step decisions, I wasn't familiar with Hierarchical Reinforcement Learning (HRL) which is a solution i might explore in future. Nevertheless, I liked the idea of simulating all of the sub-decision choices and choosing the best.
+            </p><p>
+            For macro, the hardest part was the beginning and trying to formulate a way to approach the varied number of decisions in a run. Despite the upfront downsides of using a basic NN and simulating choices it seemed much more feasible than attempting a HRL DQN model and making and training sub-models for every unique question event, shop, all campfire permutations, card choices, pathing. The complexity would have likely spiralled out of control, with no guarantee that all the models could converge on anything. Using a NN to take all the state info and approximate the likely floor the run will end on allows versatility of use for every situation, where a sample of random outcomes can be substituted for unknown results.
+            </p></li>
+        </ol></p>	
+        <h2>Weakest Part of the Macro Model:</h2>
+        <p><ol>
+            <li> Simulation is obviously more computationally expensive than calling a DQN model for the best action. This is most evident in making decisions in shops. For reference, in shops you spend any acquired gold to acquire cards, relics, potions or to remove a card. Oftentimes you will buy multiple items and a DQN could implicitly know that it could buy one thing, and then immediately buy whatever else it wants. This knowledge is not inferred when simulating. The current solution is to iterate through all permutations of single item, and dual item purchases and decide the best map path for each. This is by far the slowest part of each run but the justification is that shops are one of the most prominent places for skill expression and learning. As a player, an intuitive example is knowing that if you buy Card A and Potion B, you'll be strong enough to change path to fight a harder elite enemy for better rewards. Any shop solutions more crude than this would essentially prohibit this kind of strategy. The reason I consider this the weakest part is because shops take a disproportionate amount of the total time (since been altered, majority of the time was spent recalculating the best remove to pair with each item, strictly speaking necessary (panic button might want defend remove, hemokinesis might want strike remove) but too expensive) for each run and cannot pre-calculate any more than two purchases. After making either a single or double purchase, you essentially re-enter and re-calculate the entire shop from the new starting position.</li>
+
+            <li> The expected end floor will never fully converge and until fully trained, will be too much of an average, as opposed to a reflection of the best likely path. Encoding so much information into a single value in a game with significant RNG is questionable, but I think the framing that the value is a rough depiction of how good a position you are in, and how bright your prospects are, makes it sufficient. Especially when used comparatively, as it is when simulating.</li></ol>
+        </p>
+        <h2>Weakest Part of the Micro Model:</h2>
+        <p><ol>
+            <li> The simulation of playing multi-step cards is sub-optimal compared to something like HRL but the original motivation still stands to an extent. When looking at the sub-decisions in question, one stood out as particularly difficult: choosing any number of cards in hand. I tried and failed to imagine what the action space would look like aside from including every possible permutation. One potential option was to have an action space of size 20 where each card slot has a yes or no option. The reason for not doing this is the same reason why the base model doesn't give the index of the card in hand and instead gives the expected value for each unique card. Whilst it might be possible to train the model to do this, I imagine it as if the model is trying to encode the results for every card into each of the 20 values. This means its complexity is equivalent to having 260 yes/no's and 10 of them -> 260 x 20 possible. At this point you begin to question the return on the computational investment for a sub-decision only used in a couple of places.</li>
+
+            <li> Potions, cards and enemies are represented categorically and are processed through embedding layers. These objects are held in containers of limited size where they should be treated equally regardless of order (imagine cards in hand of size 10), so the input data is shuffled (technique known as data augmentation) so that each 'slot' is equivalent. Theoretically this all makes for a good solution, but training with data augmented embedding weights takes a significant amount of time before they truly are equal. One of the repercussions from this is when simulating, each option needs to use the same arrangement else the variation between positions can be the deciding factor so data augmentation is turned off for simulating fight sub-decisions. There are a variety of problems here, most notably that the variance between 'slots' is high enough that it can be the deciding factor.</li></ol>
+        </p> 
+
+        <h2>Avoiding Bias:</h2>
+        <p>
+            Most eminently in the micro model, I was always very conscious to avoid unintentionally presupposing certain playstyles or tendencies for the model to get it off the ground. Macro and micro models each have a single main goal in mind: winning the run and minimising health loss, respectively. Other sub-goals, that don't align with specific playstyles in fights include setting up relic counters and executing the fatal permanent effects on cards (gaining gold, max HP, perm card stats). Despite the long time horizons before a reward can be given in fights, and the disconnect between early floor states and the final floor reached, any other intermediate goals or rewards impart player bias. In fights, the nature of the game is that almost every "bad" action has a caveat that makes it sometimes correct and thus it's very difficult to make sweeping statements that you can apply to the model in the form of rewards. That said, due to repeating deficiencies in certain areas, negative rewards were implemented to dislodge the model from tendencies which were throttling performance.
+        </p>
+        <h2>Separating Micro and Macro:</h2>
+        <p>
+            For those more familiar with the game, it is understandable to take issue with the clear distinctions made between both models, and the fact the macro state info has no bearing on micro decisions. The most notable example where this might be a problem is where clear probabilities could be assigned to a few outcomes. A human might understand that, given upcoming future map events, taking a low variance 'safe' choice might guarantee a run loss and 'high-rolling' is the only way to continue. Likewise, balancing the upsides and downsides of gaining max HP or gold, versus setting up each relic counter versus losing health mid fight is not possible without macro info. Accounting for this was not a possibility at earlier stages and would require significant model adjustments and extensive training.
+
+            Potion use can often be the difference maker in runs, and I don't currently have a great way to handle it. Even when the micro model is permitted to use potions with no penalty, it still struggled to learn optimal use, so certain potions were designated to always be used at the start of the fight. I've iterated on a several designs for potion management, the current is as follows: check if you are likely/guaranteed to receive a potion as a reward, permit the use of at least one potion. Use the micro model to evaluate all possible permutations of potions you hold. Then, in short, find the best q-value with the fewest potions used, and use at least one if permitted to, regardless. If using no potions is sufficient, then all are temporarily removed, potions are added back at the end of the fight.
+        </p>
+        <h2>Card Embeddings:</h2>
+        <p>
+            The output of the micro model embedding layers can be processed to evaluate similarities between cards. By normalizing and finding the dot product between each card, you can create a representation of commonalities in a 2D plane. The embedding layers likely have a lot more room for improvement, also, the embedding is a reflection of the value that card has in the hand, not its effect when played.
+        </p>
+        <img src="img/STS_ML/CardEmbedGroupings.png" alt="" width="100%">
+        <h2>Project Outcomes:</h2>
+        <p>
+            Successfully built and trained an AI to handle every fight in the game. Using a supplementary model to approximate expected health loss in each fight for a given macro state, constructed a macro model to estimate the expected floor the run will end. These are used together to simulate and select the most promising options and the entirety of an Ironclad run can be played faithfully and autonomously. The model has won the game over 100 times at this point and performance is ever-improving. Still yet to evaluate a static model, however during training, highest average end floor over a consecutive sample of 100 runs: 24.8. There were 4 successful runs in this 100 run period.
+        </p>
+        <h2>Conclusion:</h2>
+        <p>
+            Still work to be done to improve model. In almost all cases, simulation is second best to traditional RL with a DQN. HRL could definitely help solve a lot of the more specific cases, although not all. For reference, double descent is a phenomena whereby model performance reaches a local minima as more and more model parameters are added (somewhere around where the degrees of freedom of the model match that of the data noise). Past this point, more parameters lead to a decaying improvement in performance. In terms of double descent and number of trainable parameters, I currently have no notion of where on the curve the model exists, however it is likely before the minimum. Since run performance is evaluated on averaging end floors and the high variance in results, progress is akin to an upward trending sinusoid. It's also fairly time consuming, so even partially mapping a double descent curve is not on the horizon. 
+        </p>
+        <h2>Notes and Future Work:</h2>
+        <p>
+            Very happy with the project overall, especially seeing through such a large solo project from start to finish. Obviously there are three other characters in the game and 20 progressive difficulty modifiers that could be worked on. On the ML side, training is ongoing but slow in a couple of ways, namely current potion management re-adds hidden potions mid fight. This prohibits micro training since successive states can no longer be consistently connected. With the limited levels of compute used for this project, proper statistical analysis of model sizes and parameters is a much longer term optimization goal.
+        </p>
+    </div>
+    <script>
+		// Smooth scrolling for navigation links
+		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', function (e) {
+				e.preventDefault();
+				document.querySelector(this.getAttribute('href')).scrollIntoView({
+					behavior: 'smooth'
+				});
+			});
+		});
+	</script>
+</body>
+</html>

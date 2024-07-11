@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            font-size: 20px;
+        }
+        header {
+			background-color: #000000;
+			color: #ecf0f1;
+			text-align: center;
+			padding: 2rem 0;
+			position: relative;
+			font-size: 36px;
+
+		}
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Monospace Option */
+        .monospace {
+            font-family: 'Courier New', monospace;
+        }
+
+		header h1 {
+			font-size: 2.5rem;
+			margin-bottom: 0.5rem;
+		}
+
+		nav {
+        background-color: #2c3e50;
+        padding: 10px 0;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 2800px; /* Increased from 1000px */
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+            min-width: 0;
+        }
+        .left-group {
+            flex: 3; /* Give more space to the left group */
+        }
+        .right-group {
+            flex: 2; /* Give less space to the right group */
+        }
+        .nav-group h3 {
+            color: #ecf0f1;
+            margin: 0 0 10px 0;
+            font-size: 0.9em;
+            font-weight: normal;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%; /* Ensure the ul takes full width of its container */
+        }
+        .left-group ul {
+            justify-content: flex-end;
+        }
+        .right-group ul {
+            justify-content: flex-start;
+        }
+        nav ul li {
+            padding: 0 10px;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        nav ul li:not(:last-child)::after {
+            content: '|';
+            position: absolute;
+            right: 0;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        nav ul li.no-separator::after {
+            content: none;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            white-space: nowrap;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: white;
+            visibility: hidden;
+            transform: scaleX(0);
+            transition: all 0.3s ease-in-out;
+        }
+        nav ul li a:hover::after {
+            visibility: visible;
+            transform: scaleX(1);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-group {
+                margin: 10px 0;
+                width: 100%;
+            }
+            .left-group, .right-group {
+                flex: 1;
+            }
+            nav ul {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                margin: 5px 0;
+            }
+            nav ul li:not(:last-child)::after {
+                content: none;
+            }
+        }
+
+        .page-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 200vh; /* Double the height to allow scrolling */
+            background: linear-gradient(45deg, #f3e5f5, #e8eaf6, #e3f2fd);
+            z-index: -1;
+        }
+        .color-streak {
+            position: absolute;
+            width: 300vw;
+            height: 200vh;
+            transform: rotate(-45deg);
+            left: -50%;
+        }
+        .color-streak:nth-child(1) {
+            background-color: rgba(255, 87, 34, 0.2);
+            top: 0;
+        }
+        .color-streak:nth-child(2) {
+            background-color: rgba(76, 175, 80, 0.2);
+            top: 50vh;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1700px;
+            margin: 0 auto;
+        }
+        .grid-item {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: 250px; 
+            background-color: rgba(255, 255, 255, 0.7); /* Translucent white background */
+            backdrop-filter: blur(5px); /* Adds a slight blur effect to the background */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .grid-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .image-container {
+            flex: 0 0 45%;
+            position: relative;
+            overflow: hidden;
+        }
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .grid-item:hover .image-container img {
+            transform: scale(1.05);
+        }
+        .caption-container {
+            flex: 0 0 50%;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto; 
+        }
+        .caption-container h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: #333;
+        }
+        .caption-container p {
+            margin: 0;
+            font-size: 0.9em;
+            line-height: 1.4;
+            color: #666;
+        }
+        .keyword {
+            font-weight: bold;
+        }
+        @media (max-width: 350px) {
+            .grid-item {
+                flex-direction: column;
+                height: auto;
+            }
+            .image-container, .caption-container {
+                flex: 0 0 100%;
+            }
+            .image-container {
+                height: 150px; 
+            }
+        } 
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            gap: 30px;
+        }
+        .left-column, .right-column {
+            flex: 1;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .item-name {
+            font-weight: bold;
+            color: #2c3e50;
+            width: 30%;
+            border-right: 2px solid #3498db;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .prose {
+            margin-bottom: 20px;
+        }
+        .main {
+            max-width: 1400px; /* Adjust this value to your desired maximum width */
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            align-content: center;
+            text-align: justify;
+        }
+        .home-button {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 1000;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #555;
+        }
+        .smaller-font {
+            font-size: 18px;
+        }
+        .stacked-gallery {
+            position: relative;
+            width: 70%; /* Adjust this value to change gallery width */
+            aspect-ratio: 16 / 9; /* Adjust this ratio to change gallery shape */
+            perspective: 1000px;
+        }
+
+        .gallery-item {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: all 0.5s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            /* background-color: rgb(161, 161, 161);  */
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .gallery-item:nth-child(1) { z-index: 5; top: 0; left: 0; }
+        .gallery-item:nth-child(2) { z-index: 4; top: 4%; left: 4%; }
+        .gallery-item:nth-child(3) { z-index: 3; top: 8%; left: 8%; }
+        .gallery-item:nth-child(4) { z-index: 2; top: 12%; left: 12%; }
+
+		.gallery-nav {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			background: rgba(0, 0, 0, 0.5);
+			color: white;
+			padding: 10px 15px;
+			text-decoration: none;
+			border-radius: 50%;
+			z-index: 10;
+			cursor: pointer;
+		}
+
+			.gallery-nav.prev {
+				left: 10px;
+			}
+
+			.gallery-nav.next {
+				right: 10px;
+			}
+
+			.gallery-nav:hover {
+				background: rgba(0, 0, 0, 0.8);
+			}
+    .image-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        max-width: 1600px;
+        margin: 0 auto;
+    }
+    .image-grid img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        aspect-ratio: 16 / 9;
+    }
+    @media (max-width: 600px) {
+        .image-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-button" aria-label="Home">Home</a>
+    <header class="monospace">
+        Miles Oram | Game Development Portfolio<span class="blink">_</span>
+    </header>
+    <title>Procedural Terrain in Unreal Engine</title>
+	<nav>
+		<div class="nav-container">
+			<div class="nav-group left-group">
+				<h3>Write-ups</h3>
+				<ul class="smaller-font">
+					<li><a href="index.html#multi-threaded-engine">Multi-Threaded Game Engine</a></li>
+					<li class="no-separator"><a href="index.html#slay-the-spire-recreation">Slay the Spire:   Recreation</a></li>
+					<li class="no-separator"><a href="index.html#slay-the-spire-ml-project">+ Machine Learning</a></li>
+					<li><a href="index.html#slay-the-spire-custom">+ Custom Class</a></li>
+					<li><a href="index.html#terrain-generation">Procedural Terrain Generation - UE</a></li>
+					<li><a href="index.html#occlusion-culling">Occlusion Culling - Unity</a></li>
+				</ul>
+			</div>
+			<div class="nav-group right-group">
+				<h3>Video Demos</h3>
+				<ul class="smaller-font">
+					<li><a href="index.html#split-screen">Seamless Split-Screen - Unity</a></li>
+					<li><a href="index.html#top-down-action">Top-Down Action - Unity</a></li>
+					<li><a href="index.html#retro-games">Retro Games in a Day</a></li>
+					<li><a href="index.html#old-projects">Old Projects - UE</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <div class="page-background">
+        <div class="color-streak"></div>
+        <div class="color-streak"></div>
+    </div>
+    <div class="main">
+    <h1>PROCEDURAL TERRAIN GENERATION - UNREAL ENGINE</h1>
+    
+    <h2>Project Overview</h2>
+    <p>
+        This project demonstrates the implementation of multi-threaded procedural terrain generation in Unreal Engine. 
+        The plugin generates diverse landscapes with adjustable parameters, using Procedural Mesh Components for a tile-based terrain in-editor and Hierarchical Instanced Static Mesh Components for foliage at runtime.
+    </p>
+
+    <div class="image-grid">
+        <img src="./img/ProcTerrain/foliage1.PNG">
+        <img src="./img/ProcTerrain/mountain.PNG">
+        <img src="./img/ProcTerrain/plain.PNG">
+        <img src="./img/ProcTerrain/foliage2.PNG">
+    </div>
+
+    <h2>Terrain Generation</h2>
+    <p>
+        The terrain is created using a grid of tiles and procedural mesh components.
+        By using Perlin noise and various tuneable parameters, you can create a wide range of procedural terrains.
+        Configurations include: 
+        <ul>
+            <li>Adjustments to major and minor noise for the terrain elevation
+            </li><li>Tile number and size
+            </li><li>Terrain textures
+            </li><li>Heights and band size for texture blending in terrain material
+            </li>
+        </ul>
+    </p>
+
+    <h2>Varying Terrain Texture with Height</h2>
+    <p>
+        The terrain material varies with height and each texture is lerped accordingly to appropriately blend textures at boundaries.
+        Heights for material boundaries can be varied in the tool settings, as can the size of the height bands over which it transitions.
+        Textures can be swapped out easily for producing different landscapes/biomes.
+        <img src="./img/ProcTerrain/mat.PNG">
+        With the current setup, the number of textures it can lerp is limited by the colour channels in the Vertex Colour but is otherwise simple to change.
+    </p>
+
+    <h2>Procedural Foliage Generation and Distribution</h2>
+    <p>
+        The foliage generation system uses HISM Components for efficient rendering of vegetation across the terrain. 
+        Foliage placement is determined procedurally based on tile location. 
+        The system supports multiple foliage types, each with customizable properties such as scale, radius, and growth curves. 
+        It checks for overlaps and adjusts growth based on proximity to other plants. 
+        This creates natural-looking distributions where smaller plants can co-exist near larger ones. 
+    </p>
+    <p>
+        The foliage generation process uses FRunnable to create threads to concurrently create vegetation.
+        You can easily swap out foliage types and adjust parameters to create varied biomes or landscapes.
+        The current setup allows for a lot of customisation but could be improved to allow more precise control over foliage distribution.
+    </p>
+
+    <h2>Conclusion</h2>
+    <p>
+        This project deepened my understanding of procedural generation techniques and multi-threading in Unreal Engine.
+        I also gained experience with UProperties and the reflection system, as well as general UE code conventions.
+    </p>
+    <script>
+		// Smooth scrolling for navigation links
+		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', function (e) {
+				e.preventDefault();
+				document.querySelector(this.getAttribute('href')).scrollIntoView({
+					behavior: 'smooth'
+				});
+			});
+		});
+	</script>
+    <script>
+		// Stacked gallery functionality
+		document.querySelectorAll('.stacked-gallery').forEach(gallery => {
+			const items = Array.from(gallery.querySelectorAll('.gallery-item'));
+			const prevBtn = gallery.querySelector('.gallery-nav.prev');
+			const nextBtn = gallery.querySelector('.gallery-nav.next');
+
+			function rotateItems(direction) {
+				if (direction === 'next') {
+					items.push(items.shift());
+				} else {
+					items.unshift(items.pop());
+				}
+				updateGallery();
+			}
+
+			function updateGallery() {
+				items.forEach((item, index) => {
+					item.style.zIndex = 5 - index;
+					item.style.top = `${index * 10}px`;
+					item.style.left = `${index * 10}px`;
+				});
+			}
+
+			prevBtn.addEventListener('click', () => rotateItems('prev'));
+			nextBtn.addEventListener('click', () => rotateItems('next'));
+
+			updateGallery();
+		});
+	</script>
+</body>
+</html>

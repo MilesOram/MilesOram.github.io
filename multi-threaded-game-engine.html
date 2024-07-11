@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            font-size: 20px;
+        }
+        header {
+			background-color: #000000;
+			color: #ecf0f1;
+			text-align: center;
+			padding: 2rem 0;
+			position: relative;
+			font-size: 36px;
+
+		}
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Monospace Option */
+        .monospace {
+            font-family: 'Courier New', monospace;
+        }
+
+		header h1 {
+			font-size: 2.5rem;
+			margin-bottom: 0.5rem;
+		}
+
+        nav {
+            background-color: #2c3e50;
+            padding: 10px 0;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 2800px; /* Increased from 1000px */
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+            min-width: 0;
+        }
+        .left-group {
+            flex: 3; /* Give more space to the left group */
+        }
+        .right-group {
+            flex: 2; /* Give less space to the right group */
+        }
+        .nav-group h3 {
+            color: #ecf0f1;
+            margin: 0 0 10px 0;
+            font-size: 0.9em;
+            font-weight: normal;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%; /* Ensure the ul takes full width of its container */
+        }
+        .left-group ul {
+            justify-content: flex-end;
+        }
+        .right-group ul {
+            justify-content: flex-start;
+        }
+        nav ul li {
+            padding: 0 10px;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        nav ul li:not(:last-child)::after {
+            content: '|';
+            position: absolute;
+            right: 0;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        nav ul li.no-separator::after {
+            content: none;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            white-space: nowrap;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: white;
+            visibility: hidden;
+            transform: scaleX(0);
+            transition: all 0.3s ease-in-out;
+        }
+        nav ul li a:hover::after {
+            visibility: visible;
+            transform: scaleX(1);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-group {
+                margin: 10px 0;
+                width: 100%;
+            }
+            .left-group, .right-group {
+                flex: 1;
+            }
+            nav ul {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                margin: 5px 0;
+            }
+            nav ul li:not(:last-child)::after {
+                content: none;
+            }
+        }
+
+        .page-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 200vh; /* Double the height to allow scrolling */
+            background: linear-gradient(45deg, #f3e5f5, #e8eaf6, #e3f2fd);
+            z-index: -1;
+        }
+        .color-streak {
+            position: absolute;
+            width: 300vw;
+            height: 200vh;
+            transform: rotate(-45deg);
+            left: -50%;
+        }
+        .color-streak:nth-child(1) {
+            background-color: rgba(255, 87, 34, 0.2);
+            top: 0;
+        }
+        .color-streak:nth-child(2) {
+            background-color: rgba(76, 175, 80, 0.2);
+            top: 50vh;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1700px;
+            margin: 0 auto;
+        }
+        .grid-item {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: 250px; 
+            background-color: rgba(255, 255, 255, 0.7); /* Translucent white background */
+            backdrop-filter: blur(5px); /* Adds a slight blur effect to the background */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .grid-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .image-container {
+            flex: 0 0 45%;
+            position: relative;
+            overflow: hidden;
+        }
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .grid-item:hover .image-container img {
+            transform: scale(1.05);
+        }
+        .caption-container {
+            flex: 0 0 50%;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto; 
+        }
+        .caption-container h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: #333;
+        }
+        .caption-container p {
+            margin: 0;
+            font-size: 0.9em;
+            line-height: 1.4;
+            color: #666;
+        }
+        .keyword {
+            font-weight: bold;
+        }
+        @media (max-width: 350px) {
+            .grid-item {
+                flex-direction: column;
+                height: auto;
+            }
+            .image-container, .caption-container {
+                flex: 0 0 100%;
+            }
+            .image-container {
+                height: 150px; 
+            }
+        } 
+        .relic-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .relic-bubble {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 15px;
+            width: 200px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .relic-bubble:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .relic-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .relic-description {
+            font-size: 0.9em;
+            color: #34495e;
+        }
+        .starting { background-color: #e74c3c; color: white; }
+        .boss { background-color: #f39c12; }
+        .rare { background-color: #3498db; }
+        .uncommon { background-color: #2ecc71; }
+        .shop { background-color: #9b59b6; }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            gap: 30px;
+        }
+        .left-column, .right-column {
+            flex: 1;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .item-name {
+            font-weight: bold;
+            color: #2c3e50;
+            width: 30%;
+            border-right: 2px solid #3498db;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .prose {
+            margin-bottom: 20px;
+        }
+        .main {
+            max-width: 1400px; /* Adjust this value to your desired maximum width */
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            align-content: center;
+            text-align: justify;
+        }
+        .home-button {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 1000;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #555;
+        }
+        .smaller-font {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-button" aria-label="Home">Home</a>
+    <header class="monospace">
+        Miles Oram | Game Development Portfolio<span class="blink">_</span>
+    </header>
+    <title>Multi-Threaded Game Engine - Asteroids</title>
+	<nav>
+		<div class="nav-container">
+			<div class="nav-group left-group">
+				<h3>Write-ups</h3>
+				<ul class="smaller-font">
+					<li><a href="index.html#multi-threaded-engine">Multi-Threaded Game Engine</a></li>
+					<li class="no-separator"><a href="index.html#slay-the-spire-recreation">Slay the Spire:   Recreation</a></li>
+					<li class="no-separator"><a href="index.html#slay-the-spire-ml-project">+ Machine Learning</a></li>
+					<li><a href="index.html#slay-the-spire-custom">+ Custom Class</a></li>
+					<li><a href="index.html#terrain-generation">Procedural Terrain Generation - UE</a></li>
+					<li><a href="index.html#occlusion-culling">Occlusion Culling - Unity</a></li>
+				</ul>
+			</div>
+			<div class="nav-group right-group">
+				<h3>Video Demos</h3>
+				<ul class="smaller-font">
+					<li><a href="index.html#split-screen">Seamless Split-Screen - Unity</a></li>
+					<li><a href="index.html#top-down-action">Top-Down Action - Unity</a></li>
+					<li><a href="index.html#retro-games">Retro Games in a Day</a></li>
+					<li><a href="index.html#old-projects">Old Projects - UE</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <div class="page-background">
+        <div class="color-streak"></div>
+        <div class="color-streak"></div>
+    </div>
+    <div class="main">
+        <h1>MULTI-THREADED GAME ENGINE - ASTEROIDS</h1>
+        <p>
+            A project to build out various game engine features, applied to Asteroids. See <a href="https://Github.com/MilesOram/Asteroids">Github.</a><br>
+            Uses C++, 32-bit SFML for graphics. 
+            Typical asteroid rules with two main additions: the glow, pulse and shadows detailed in the Rendering section and a period of increased asteroid spawn rate, increase fire rate and blue->red glow every 30 seconds.
+            Arrow keys to move and turn, Space to fire, Q to toggle rechargeable boost to the glow.
+        </p>
+        <h2>
+            Preface & Overview
+        </h2>
+        <p><span class="keyword">
+            Performance was profiled and improved extensively through the consideration of: </span>
+                Instruction-level parallelism, 
+                Spatial and temporal cache locality, 
+                Cache line size and memory alignment,
+                Context switching, 
+                Data dependency chains, 
+                Branch prediction and early exit strategies, 
+                Memory access patterns, 
+                Memory allocation and deallocation costs,
+                Number of draw calls,
+                Shader efficiency.
+        </p>
+        <p><span class="keyword">
+            Techniques included:</span>
+                SIMD,
+                Loop unrolling,
+                Data prefetching,
+                Custom memory allocators,
+                Object pooling,
+                Atomics and lock-free data structures,
+                Spatial partitioning,
+                Efficient tagging system for collision detection,
+                Double buffering,
+                Job system for parallel processing,
+                Phase-based frame execution,
+                Optimised collision detection algorithms,
+                Component-based game object system.
+        </p>
+        <p>
+            In my optimisation process, I applied a systematic approach based on Amdahl's Law to prioritise improvements.
+            For example, profiling revealed that the GJK intersection testing, and specifically its old Support function, consumed a lot of frame time so it seemed reasonable to look for a better search algorithm than O(n) complexity.
+            It now uses a binary search (with polygon vertices ordered anti-clockwise), reducing complexity to O(log n), and yielded substantial performance gains in collision.
+            Whilst a major focus of the project was on optimisation, I made an effort not to jump to prematurely optimising everything.
+            In general I followed the structure of implementing something simple, then profiling and working from there.
+        </p>
+        <p>
+            <strong>Note:</strong> This project prioritised learning and building scalable systems over task-specific solutions.
+            While some elements were purpose-built, the primary goal was on developing scalable, well-structured solutions and gaining as much experience as possible throughout the process.
+            The project was inspired by reading Game Engine Architecture and Computer Systems: A Programmer's Perspective and practises a variety of concepts learnt from those books.
+            As a next step, it would be interesting to develop a streamlined and heavily optimised version of this at a fixed scope, with a pure focus on data-oriented design.
+        </p>
+        <h3>Sections:</h3>
+            <ul>
+                <li><a href="#gameplay">Gameplay</a></li>
+                <li><a href="#job-system">Job System</a></li>
+                <li><a href="#game-loop">Game Loop</a></li>
+                <li><a href="#rendering">Rendering & Shaders</a></li>
+                <li><a href="#lock-free-object-pool">Lock-Free Object Pool</a></li>
+                <li><a href="#component-system">Component System</a></li>
+                <li><a href="#collision">Collision with GJK</a></li>
+                <li><a href="#optimisation-techniques">Optimisation Techniques</a></li>
+                <li><a href="#future-optimisation">Future Optimisation</a></li>
+                <li><a href="#conclustion">Conclusion</a></li>
+                <li><a href="#video">Video</a></li>
+            </ul>
+        <div>
+            <h1>Major Features:</h1>
+            <h2 id="gameplay">Gameplay</h2>
+            <p>
+                The gameplay is surprisingly interesting for such a simple concept.
+                The main additions are:
+                <ul>
+
+                    <li>Entire screen is dark outside of a glow around the ship and a regular pulse emitted from it.</li>
+                    <li>There is a rechargeable boost to the glow which lasts about 5 seconds (which needs a UI element to track, I don't have this yet).</li>
+                    <li>'Overdrive' period of increased fire rate and asteroid spawn rate, with a red glow instead of a blue glow.</li>
+                </ul>
+            </p>
+            <img src="img/MultiThreaded/thmb.PNG">
+            <p>
+                Having the player wrap around the screen is a novel experience here since you have to try and time it with the pulse reaching (unoccluded) the position where you would emerge on the other side.
+                Meanwhile there's a lot of value in trying to create a mental picture of the entire screen as the pulse reveals everything.
+                The high asteroid density mixed with higher fire rate is maybe a bit deceptive as well - it's harder with more asteroids, but easier with increased fire rate, but also made harder as you spawn more medium and small asteroids.
+                As an accidental result of how the glow occlusion is created, the asteroids receive either a blue or red tint depending on the glow's colour and this helps a lot with building an atmosphere.
+            </p>
+            <h2 id="job-system">Job System</h2>
+            <p> 
+                Jobs are packaged as Declarations, containing all the info required to complete the job. The function wrapper allows member functions to be used as jobs.
+                <img src="./img/MultiThreaded/jobsysdecl.PNG">
+                Each of these member functions returns void and takes a uintptr_t as its argument, to pass on a pointer to relevant data. That function can reinterpret cast this to what it needs.
+                <img src="./img/MultiThreaded/jobsys.PNG">
+
+                On completing a job, the thread atomically decrements its counter to synchronise phases in each frame. 
+                The two major job queues used in the job system are the main queue and the buffer queue. Threads use a mutex to take jobs from the main queue.
+                Each frame is separated into phases, which are determined by concurrency and ordering requirements. 
+                <br>
+                During each phase, the buffer queue is filled with the jobs of the next phase and when the final thread completes its work, the buffer queue is swapped with the empty main queue.
+                Threads are then signalled using control variables. 
+            </p>
+            <p>
+                The Main thread is used for all rendering tasks, and currently does not work from a queue.
+                SFML's lack of thread-safety means it's better to have the main thread do all graphics-related work.
+            </p>
+
+            <h2 id="game-loop">Game Loop</h2>
+            <p>
+                The following shows the code for the Main thread's game loop, as well as what jobs are carried out by the other threads in parallel:
+                <img src="./img/MultiThreaded/mainloop.PNG">
+                Previously the idea was for the main thread to complete all rendering whilst both Update and Collisions were resolved by other threads.
+                Then the later snapshot is prepared for the main thread to draw from in the next frame.
+                <br>
+                After adding a particle system and shaders to add complexity to the rendering step, updating all game objects and particles is always faster than drawing the game objects.
+                It then makes sense to not double buffer the particles since they neither have sprites to store the old position, nor do they interact with anything else currently (this could be changed if needed).
+            </p>
+
+            <h2 id="rendering">Rendering</h2>
+            <p>
+                The ship constantly emits a blue glow and periodically emits a radial pulse. Both of these are occluded by asteroids which cast shadows behind them.
+                The challenge of the game is the lack of visibility and the looming asteroids you catch in the distance with each pulse.
+                <img src="./img/MultiThreaded/Pulse.PNG" width="600" height="600">
+                Both are line traced in shaders - given the small radius of the glow, the cost is not too high for it.
+                The pulse stays centred on the position at which it was emitted.
+                <br>
+                However, line tracing the pulse all the way out to the edge of the screen is not a good idea and I have not yet optimised this procedure.
+                It is only in place because it looks cool. With a fixed width band, and a linearly growing radius, the number of pixels in the band only grows linearly at 2*pi*width.
+                You can immediately discard pixels which are off screen or not within the band based on their radius. 
+                <br>
+                Other methods to achieve this effect could be to store a texture with this pulse and advance it each frame, occluding 'rays' as necessary, redoing the line trace each frame is wasteful. 
+                You could also just not occlude it, and have the pulse pass through everything.
+            </p>
+            <p>
+                The following shows the render process (excluding particles which are tacked on the end):
+                <img src="./img/MultiThreaded/draw.PNG">
+                The two images below help illustrate the process slightly better. 
+                The coloured asteroids image shows what m_BufferRenderTexture1 looks like after DrawAsteroidVertexArray.
+                <img src="./img/MultiThreaded/uniquecolours.PNG" width="600" height="600">
+                Using 255 green and a varied red value for each asteroid, the shader can determine once it has entered a new asteroid during the line trace.
+                <br>
+                As mentioned in the comments of the Draw function, light should not be allowed to 'chain' through overlapping asteroids. 
+                Asteroids closest to the player are rendered on top to avoid odd looking shadows, and I settled on two as the number of asteroids light can pass through.
+                <br>
+                This best solves the case where adjacent asteroids are roughly the same distance from the player and overlap.
+                Note that this is not analogous to a simple ray trace since it's 2D, there is nothing like following the trace of light from source -> object -> camera.
+            </p>
+            <p>
+                The glow image shows what m_BufferRenderTexture2 looks like before the blur is applied.
+                <img src="./img/MultiThreaded/glowonly.PNG" width="600" height="600">
+                Note two things here: the 'inside' of each lit asteroid is filled with the glow as detailed in the Draw function and the shadows are also not quite perfect.
+                If you look closely at the asteroid nearest the centre, you can see a streak of shadow passing through it.
+                <br>
+                This is due to the line trace idea not really working with concave shapes.
+                If a trace sees a colour and then sees black, it only continues for so long before it must assume it will not re-enter the asteroid.
+                Blurring helps assuage this, as does increasing the distance you continue tracing after exiting but there is a balance to be struck.
+            </p>
+            <p>
+                Currently only the asteroids share a texture atlas, in future, the ship and projectiles would be on the same atlas and only one texture would be needed for rendering.
+                The option to batch all sprites into a single draw call is then available. 
+                Since occluders and non-occluders are currently drawn separately, asteroids are the only thing on the atlas.
+            </p>
+
+            <h2 id="lock-free-object-pool">Lock-Free Object Pool</h2>
+            <p>
+                Pooling projectiles and asteroids seemed sensible - you can easily create a pool for any game object with this.
+                By using shared_ptr (solves ABA) atomically to remove and insert objects at the head of a linked list (atomic_compare_exchange_weak), you can avoid the need for mutexes and context switching with a lock-free, thread-safe pool.
+                <br>
+                Allows dynamic resizing at runtime depending on config settings which can also be changed in anticipation of higher/lower demand.
+                Originally it was templated so that it could store: 'T prefab' and then 'make_shared&lt;T&gt;(prefab)' to make copies and 'static_assert' that it derived from GameObject. 
+                Instead it now uses a clone function for each GameObject and simply stores a shared_ptr to a GameObject - no need for templating.
+                <br>
+                There is a pool manager which keeps a map of all pools, keyed by strings. It is only keyed by strings for readability's sake, ints or enum class would be more optimal.
+            </p>
+
+            <h2 id="component-system">Component System</h2>
+            <p>
+                Similar to Unity, currently includes collision components (box, circle and polygon) and a pooled object component for objects that belong to a pool.
+
+                I didn't like using type identification to store the components in a map, so I wanted the keys to be ints. 
+                Each int would be unique to the derived class i.e. CollisionComponent or PooledObjectComponent, but each of the Box, Circle and Polygon classes (which derive from CollisionComponent) would share the unique CollisionComponent int (since each object will only have one collision component and you will be calling GetComponent&lt;CollisionComponent&gt;()). 
+                I needed classes derived from Component to have the unique ids, but classes derived from these would use their parent's.
+                <img src="./img/MultiThreaded/componentidcounter.PNG">
+                This is used to assign the unique ids to each class and Component has: static ComponentIdCounter IdCounter. 
+                The desired functionality is similar to a templated virtual getId function (which isn't possible). Then calling T::getId in the get/add component templated functions would call IdCounter.getId&lt;T&gt;();.
+                <br>
+                My current solution, which I don't like, involves each class derived from Component having a function like this:
+                <img src="./img/MultiThreaded/getid.PNG">
+                <img src="./img/MultiThreaded/getcomp.PNG">
+                This way any class derived from CollisionComponent or CollisionComponent itself will use this function when T::GetId() is called. 
+                <br>
+                In theory GetId could be an overridden non-static function for the AddComponent case, using the component passed as the argument.
+                However, the GetComponent function has no argument and only has the type T to use (no associated object). 
+                So it seemed like making this function static and hence not virtual was the only choice from this point, but then how do you make assurances that each derived class implements this function? 
+                I don't know the answer, I can't think of a solution that isn't messy nor a place to put a static assertion that isn't redundant.
+                I know you can do it if the base class is templated and derived classes inherit from Base&lt;Derived&gt;, but I haven't thought through any potential ramifications of this.
+            </p>
+            <p>
+                Update: It seems you can use SFINAE (Substitution Failure Is Not An Error) to create a compile-time check for a class implementing a certain function, this would likely work well.
+            </p>
+
+            <h2 id="collision">Collision</h2>
+            <p>
+                Uses GJK for all intersection testing (excluding circle-circle) and double dispatch to select the relevant function.
+                The support function for GJK uses a binary search, permitted by ordered vertices of convex shapes.
+                Works for every combination of Circle, Box and Convex Polygon colliders.
+            </p>
+            <p>
+   
+                There are the obvious options of partitioning the screen into a quadtree, or using a spatial hash grid, but originally I wanted to try an approach where I managed the memory and which allowed lock-free concurrent access.
+                This manifested as a collision grid, where each cell would contain a linked list of objects. 
+                <br>
+                The problem was that nodes needed to be inserted at the head, but removed from anywhere in the list.
+                A successful 'lock-free' implementation would need to be better than just blocking off the whole list to remove something that is mid-list.
+            </p>
+            <p>
+                I made some interesting headway with this, and since I was managing the memory for all the cells and nodes, there was an interaction with the ABA problem where it actually worked to the benefit of the method.
+                Very simply, the idea was to have a 'runner' and a 'previous', the runner would iterate through the list until it reached the node you wanted, then the previous would catch up.
+                Removal would involve 'claiming' the link ahead of you and behind you (i.e. pointing it to null), and then doing a simple atomic compare exchange.
+                <br>
+                The tricky parts are where the runner and previous can potentially get stuck in the list. 
+                With concurrent access, a runner can be on a node which gets removed, deallocated, and then reallocated to be added at the front of the list, and it can just continue iterating, a neat ABA interaction.
+                By ordering the claiming of links, you end up with parts of the list which are blocked, but not all - runners ahead of you can still continue, anything prior to you is free to be removed.
+                <br>
+                The reason I moved on from this was due to how mid-lists would interact when they became the new head.
+                There were a ton of edge cases here which were difficult to debug given the state they left the list in - e.g. two lists, with one completely isolated/lost.
+                <br>
+                I moved on at a stage where I thought it should work but it didn't, regardless it seems unlikely that the performance of this method would be that good given the overhead of double iteration and the full process for cases where there's no competition, but it was interesting nonetheless.
+            </p>
+            <p>
+                Currently a fixed collision grid is in place - offering concurrent, fast access, good spatial locality at the cost of some wasted checks and a larger memory footprint.
+                The grid allocates a large block of memory which it divides into cells which contain nodes for each object - there are very obvious drawbacks to this but I wanted see how much I could get out of it. 
+                Objects are placed in the grid based on their broad-phase boxes.
+                <br>
+                The nodes also contain the collision tags of that object and the tags it is looking for, the result is a check for (currentNode->selfTags & nextNode->otherTags > 0). 
+                This tag comparison and grid design in general in focused on good cache locality - no need to go inside each game object until the intersection test as the tags are stored in each node. 
+                The allocator tracks in-use nodes with a bit array, currently these are stored in a separate array but I intend to move them to the start of that cell's memory. 
+                So the memory will look like:
+            </p>
+            <p>
+                BitArray | Node | Node | Node...
+            <br>
+                BitArray | Node | Node | Node... etc.
+            </p>
+            <p>
+
+                Working in 32-bit, the node struct contains a GameObject*, and two uint16_t for both tags - 8 bytes total. 
+                During collision resolution, each thread executes a job which acts on a contiguous chunk of the grid memory and tests the pairs within each cell. 
+                <br>
+                The fixed size grid works due to the constrained nature of the game and typically asteroids are well-distributed throughout the screen.
+                <br>
+                I need to implement an overflow solution for when there are too many objects per cell, this would look something like an extra chunk of memory at the end of the grid.
+                The allocator can assign this to a given cell and then reclaim it later. If this is frequent then the design starts to fall apart. 
+            </p>
+            <p>
+                The collision grid also uses the last bit in the tag of each node to specify whether each object occupies more than one cell in the grid. 
+                If so, its successful collision must be recorded in a thread-safe set to avoid double counting.
+            </p>
+
+            <h2 id="optimisation-techniques">Optimisation Techniques - SIMD, Loop Unrolling, Prefetching</h2>
+            <p>
+                The project includes sectioned off work signalled by '#if USE_CPU_FOR_OCCLUDERS'.
+                Please note that the method and idea are extremely naive, they only remain in the project because the code is relevant to my learning of different optimisation techniques.
+                <br>
+                The idea was to use the collision grid as a basis for a high res occupancy texture as used in the Rendering section by the glow shader.
+                The outer cells occupied by each collider's broad-phase box would then be evaluated pixel by pixel for being inside or outside the polygon.
+                Therefore multiple threads will work to update this texture/pixel array on the CPU. 
+                <br>
+                The flaws in this method are very apparent and it is not even close to viable, but with the optimisations in place, it runs surprisingly well.
+                <img src="./img/MultiThreaded/simd.PNG">
+                The snippet above went through many iterations of profiling.
+                It shows the point in polygon function, vertices and y coords are duplicated to allow use of _mm256_loadu_ps instead of _mm256_set1_ps. 
+                <br>
+                During this process I considered things like cache locality, dependency chains, instruction pipelining along with the careful use of loop unrolling and prefetching.
+                By taking the cross product of vert A -> x with vert A -> vert B, verts are required to go clockwise so a positive cross product means it's outside.
+                It iterates through each edge and stops once all pixels in the register are deemed outside (or all edges have been checked).
+                The early exit allows you to begin testing the next set of points against the edge which just proved adjacent points to be outside.
+                <br>
+                Loop unrolling to process two rows at a time in sets of 8 allows it to take advantage of the overlap in x coords between the sets.
+                Similarly the main bottleneck in profiling was the: mask1 = _mm256_and_ps(mask1, _mm256_cmp_ps(cross1, zeros, _CMP_GE_OS)); step.
+                mask1 can only be determined after cross1 is calculated, and everything following requires mask1 so there is a clear dependency bottleneck.
+                All instructions for mask2 can ideally go tightly behind those for mask1.
+                <br>
+                It was important to be mindful of the number of __mm256 registers needed at a given time such that none would need to be offloaded to memory.
+                <br>
+                Prefetching was suitable here to load the next two rows whilst iterating across the current two.
+            </p>
+            <p>
+
+                SIMD was also used for rotating boxes (or any set of four points) for creating the broad-phase boxes or rotating polygons.
+                <img src="./img/MultiThreaded/boxrotate.PNG">
+            </p>
+
+            <h2 id="future-optimisation">Future Optimisation</h2>
+            <p>
+                The current main bottlenecks are: line tracing the pulse when it reaches the corners of large screens unoccluded and using iterators for spreading the work between threads.
+                I discussed the pulse earlier, but the iterators are a remnant of the previous container used for storing GameObjects.
+                <img src="./img/MultiThreaded/itr.PNG">
+                std::multiset&lt;std::shared_ptr&lt;GameObject&gt;, TextureAndIDComparator&gt; GameObjectMultiset;
+                <br>
+                The multiset is no longer needed, and once every texture is on the same texture atlas as discussed in the Rendering section, ordering objects by texture is no longer necessary.
+                The multiset requires iterators for the threads to process but using these with high frequency concurrently accounts for a large amount of frame time.
+                This is likely due to poor cache efficiency with a data structure like a set, such that iteration requires jumping around a lot in memory.
+                <br>
+                A quick fix would be to just have a vector of occluders and non-occluders, and then adjust all the jobs accordingly.
+                There is also a lot more room for load balancing of threads and potential work stealing.
+                Having threads continue to work on the same objects/memory each frame as opposed to just taking the next job in the queue could be beneficial.
+                <br>
+                There are also several instances of checking each frame for a significant difference from previous values before updating e.g. for shader uniforms or position in collision grid.
+                There are likely more cases where this might be suitable, as well as considering options for the tick rate of things like collision.
+                <br>
+                Updating the particle system is not optimised yet, the only thing currently implemented is splitting the work up into multiple jobs.
+                It would likely benefit a lot from SIMD.
+            </p>
+
+            <h2 id="conclusion">Conclusion</h2>
+            <p>
+                Created an engaging game with a novel twist on Asteroids, successfully implementing advanced game engine features and multi-threading concepts. 
+                Practised and applied recently learned theory regarding game engine architecture, concurrent programming, memory caches and low-level optimisation techniques.
+                Throughout the project, maintained a focus on understanding how low-level hardware impacts performance, exploring CPU architecture from basic logic gates (using resources like <a href="https://nandgame.com">nandgame.com</a>) to the foundations of machine code and Assembly.
+                Gained valuable experience in graphics programming and shader development with SFML, while significantly improving my skills in performance profiling and optimisation.
+            </p>
+
+            <h2 id="video">Video</h2>
+            <div class="project-media">
+                <iframe width="1280" height="720" src="https://www.youtube.com/embed/3xijSwGcOYE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            
+        </div>
+    </div>
+    <script>
+		// Smooth scrolling for navigation links
+		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', function (e) {
+				e.preventDefault();
+				document.querySelector(this.getAttribute('href')).scrollIntoView({
+					behavior: 'smooth'
+				});
+			});
+		});
+	</script>
+</body>
+</html>

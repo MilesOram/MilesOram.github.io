@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            font-size: 20px;
+        }
+        header {
+			background-color: #000000;
+			color: #ecf0f1;
+			text-align: center;
+			padding: 2rem 0;
+			position: relative;
+			font-size: 36px;
+
+		}
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Monospace Option */
+        .monospace {
+            font-family: 'Courier New', monospace;
+        }
+
+		header h1 {
+			font-size: 2.5rem;
+			margin-bottom: 0.5rem;
+		}
+
+		nav {
+        background-color: #2c3e50;
+        padding: 10px 0;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 2800px; /* Increased from 1000px */
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+            min-width: 0;
+        }
+        .left-group {
+            flex: 3; /* Give more space to the left group */
+        }
+        .right-group {
+            flex: 2; /* Give less space to the right group */
+        }
+        .nav-group h3 {
+            color: #ecf0f1;
+            margin: 0 0 10px 0;
+            font-size: 0.9em;
+            font-weight: normal;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%; /* Ensure the ul takes full width of its container */
+        }
+        .left-group ul {
+            justify-content: flex-end;
+        }
+        .right-group ul {
+            justify-content: flex-start;
+        }
+        nav ul li {
+            padding: 0 10px;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        nav ul li:not(:last-child)::after {
+            content: '|';
+            position: absolute;
+            right: 0;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        nav ul li.no-separator::after {
+            content: none;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            white-space: nowrap;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: white;
+            visibility: hidden;
+            transform: scaleX(0);
+            transition: all 0.3s ease-in-out;
+        }
+        nav ul li a:hover::after {
+            visibility: visible;
+            transform: scaleX(1);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-group {
+                margin: 10px 0;
+                width: 100%;
+            }
+            .left-group, .right-group {
+                flex: 1;
+            }
+            nav ul {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                margin: 5px 0;
+            }
+            nav ul li:not(:last-child)::after {
+                content: none;
+            }
+        }
+
+        .page-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 200vh; /* Double the height to allow scrolling */
+            background: linear-gradient(45deg, #f3e5f5, #e8eaf6, #e3f2fd);
+            z-index: -1;
+        }
+        .color-streak {
+            position: absolute;
+            width: 300vw;
+            height: 200vh;
+            transform: rotate(-45deg);
+            left: -50%;
+        }
+        .color-streak:nth-child(1) {
+            background-color: rgba(255, 87, 34, 0.2);
+            top: 0;
+        }
+        .color-streak:nth-child(2) {
+            background-color: rgba(76, 175, 80, 0.2);
+            top: 50vh;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1700px;
+            margin: 0 auto;
+        }
+        .grid-item {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: 250px; 
+            background-color: rgba(255, 255, 255, 0.7); /* Translucent white background */
+            backdrop-filter: blur(5px); /* Adds a slight blur effect to the background */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .grid-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .image-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .image-container img {
+            max-width: 30%;
+            height: auto;
+        }
+        .grid-item:hover .image-container img {
+            transform: scale(1.05);
+        }
+        .caption-container {
+            flex: 0 0 50%;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto; 
+        }
+        .caption-container h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: #333;
+        }
+        .caption-container p {
+            margin: 0;
+            font-size: 0.9em;
+            line-height: 1.4;
+            color: #666;
+        }
+        .keyword {
+            font-weight: bold;
+        }
+        @media (max-width: 350px) {
+            .grid-item {
+                flex-direction: column;
+                height: auto;
+            }
+            .image-container, .caption-container {
+                flex: 0 0 100%;
+            }
+            .image-container {
+                height: 150px; 
+            }
+        } 
+        .relic-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .relic-bubble {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 15px;
+            width: 200px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .relic-bubble:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .relic-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .relic-description {
+            font-size: 0.9em;
+            color: #34495e;
+        }
+        .starting { background-color: #e74c3c; color: white; }
+        .boss { background-color: #f39c12; }
+        .rare { background-color: #3498db; }
+        .uncommon { background-color: #2ecc71; }
+        .shop { background-color: #9b59b6; }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            gap: 30px;
+        }
+        .left-column, .right-column {
+            flex: 1;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .item-name {
+            font-weight: bold;
+            color: #2c3e50;
+            width: 30%;
+            border-right: 2px solid #3498db;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .prose {
+            margin-bottom: 20px;
+        }
+        .main {
+            max-width: 1400px; /* Adjust this value to your desired maximum width */
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            align-content: center;
+            text-align: justify;
+        }
+        .home-button {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 1000;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #555;
+        }
+        .smaller-font {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-button" aria-label="Home">Home</a>
+    <header class="monospace">
+        Miles Oram | Game Development Portfolio<span class="blink">_</span>
+    </header>
+    <title>Slay the Spire Recreation</title>
+	<nav>
+		<div class="nav-container">
+			<div class="nav-group left-group">
+				<h3>Write-ups</h3>
+				<ul class="smaller-font">
+					<li><a href="index.html#multi-threaded-engine">Multi-Threaded Game Engine</a></li>
+					<li class="no-separator"><a href="index.html#slay-the-spire-recreation">Slay the Spire:   Recreation</a></li>
+					<li class="no-separator"><a href="index.html#slay-the-spire-ml-project">+ Machine Learning</a></li>
+					<li><a href="index.html#slay-the-spire-custom">+ Custom Class</a></li>
+					<li><a href="index.html#terrain-generation">Procedural Terrain Generation - UE</a></li>
+					<li><a href="index.html#occlusion-culling">Occlusion Culling - Unity</a></li>
+				</ul>
+			</div>
+			<div class="nav-group right-group">
+				<h3>Video Demos</h3>
+				<ul class="smaller-font">
+					<li><a href="index.html#split-screen">Seamless Split-Screen - Unity</a></li>
+					<li><a href="index.html#top-down-action">Top-Down Action - Unity</a></li>
+					<li><a href="index.html#retro-games">Retro Games in a Day</a></li>
+					<li><a href="index.html#old-projects">Old Projects - UE</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <div class="page-background">
+        <div class="color-streak"></div>
+        <div class="color-streak"></div>
+    </div>
+    <div class="main">
+        <h2>SLAY THE SPIRE RECREATION - C++</h2>
+        <p>
+            You can also read a similar write-up of the project on <a href="https://github.com/MilesOram/STS"a>github</a> .
+        </p>
+        <h2>Project Overview:</h2>
+        <p>
+            For this project, I created a C++ replica of Slay the Spire, a popular roguelike deckbuilder. 
+            The replica is as close to a 1:1 recreation of the game as is feasible, and currently consists of all 4 acts, and the full experience for the first character, Ironclad.
+            The game was originally designed to allow a user to interact with, and play through the full game. 
+            However it evolved into a Deep Reinforcement Learning (RL) project using multiple TensorFlow models to autonomously learn, play and win the game.
+            As the sole contributor to this project, I was responsible for the design, development and testing of the game and used only the 
+            <a href="https://slay-the-spire.fandom.com/wiki/Slay_the_Spire_Wiki"a>Wiki</a>, and my knowledge from playing the game to build it. 
+            The goal was to design the game without influence or knowledge of the game's code.
+        </p>
+        <p>
+            See <a href="slay-the-spire-ml-project.html" >Reinforcement Learning</a> part of the project
+        </p>
+    <h2>Slay the Spire:</h2>
+        <p>
+            For those unfamiliar with the game, Slay the Spire is a card game where you attempt to climb 50 floors, separated into 3 acts, of varying events
+            (with an additional short 4th act). The player aims to acquire cards, relics (unique items to help the player in and out of fights) and potions
+            (one time use, primarily used to help in fights) while not dying on their journey up the spire. You encounter random events, campfires to heal 
+            or upgrade cards, shops to spend gold and acquire resources, but most frequently fight enemies. Enemies will either be in traditional hallway fights,
+            more difficult elite fights, or a boss enemy at the end of each act. Fights can be boiled down to a card game where your character faces the enemies.
+            By playing cards using energy, you attempt to deal damage to them, or mitigate damage dealt to you. Each fight ends with either your death, and the
+            loss of the run, or the enemies defeated and the offering of various rewards as you continue on. Computational performance was always a priority over
+            impressive visuals so the project was kept as a text-based recreation as shown below.
+        </p>
+        <img src="img/STS_Recreation/STStext.PNG" alt="">
+        <img src="img/STS_Recreation/STSreal.PNG" alt="">
+        <h2>Technical Design:</h2>
+        <p>
+            The use of the observer design pattern permeates the entire codebase, appearing frequently to facilitate the triggers and effects of cards, relics and potions. 
+            Certain classes need to observe several events and therefore hold and manage a set of templated observers. 
+            The 'gamestate' and 'all_pc_info' classes are both singleton classes and are used to store caches for frequently calculated values, hold databases from which to clone items and contain all the unique game and player information, respectively. 
+            This is a highly object-oriented focused project with multiple inheritance structures.
+        </p>
+        <h2>Challenges and Solutions:</h2>
+        <p>
+            One of the main challenges was inferring the nature of the design for some of the more unintuitive and complex mechanics in the game. 
+            Managing the ordering of observer triggers when cards are played from the top of the deck and duplicated required a few iterations of design to hone a proper solution. 
+            Also, recreating the procedural map generation was a non-trivial exercise given the edge cases which require unique handling thanks to the stipulations on each map node.
+        </p>
+        <div class="image-container">
+            <img src="img/STS_Recreation/StSmaptext1.PNG" alt="">
+             <img src="img/STS_Recreation/STSmapreal.png" alt="">
+              <img src="img/STS_Recreation/StSmaptext2.PNG" alt=""> 
+            
+        </div>
+        <p>
+            Real Slay the Spire map flanked by sample of randomly generated replica maps following the same rules.
+        </p>
+        <h2>Testing and Debugging:</h2>
+        <p>
+            There was a necessity for a system to randomly generate decks and iterate through every fight with all permutations of relics, cards and potions to train the fight AI. 
+            This coincided with a need to rigorously test for bugs in all edge cases. 
+            In unison with an intuition for the more complex interactions in the game, manual testing and checking old patch notes for bugs previously present in the game, testing was handled well.
+        </p>
+        <h2>Project Outcomes:</h2>
+        <p>
+            Successfully recreated Slay the Spire. Fully playable from start to finish, well-designed and scalable such that the other class characters could be added without too much difficulty. 
+            Runs well and efficiently, visuals are sufficient for functionality. (In terms of runtime performance bottlenecks, the overwhelming majority is spent calling and training the RL models, the running of the game itself is negligible in comparison.)
+
+        </p>
+        <h2>Conclusion:</h2>
+        <p>
+            This project showcased my technical expertise in C++ programming, and software design.
+            It also highlighted my ability to work independently, manage complex projects, and solve technical challenges.
+        </p>
+        <div class="project-media">
+            <iframe width="1280" height="720" src="https://www.youtube.com/embed/I9xU-Yd0r3I" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+    </div>
+    <script>
+		// Smooth scrolling for navigation links
+		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', function (e) {
+				e.preventDefault();
+				document.querySelector(this.getAttribute('href')).scrollIntoView({
+					behavior: 'smooth'
+				});
+			});
+		});
+	</script>
+</body>
+</html>
