@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            font-size: 20px;
+        }
+        header {
+			background-color: #000000;
+			color: #ecf0f1;
+			text-align: center;
+			padding: 2rem 0;
+			position: relative;
+			font-size: 36px;
+
+		}
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Monospace Option */
+        .monospace {
+            font-family: 'Courier New', monospace;
+        }
+
+		header h1 {
+			font-size: 2.5rem;
+			margin-bottom: 0.5rem;
+		}
+
+        nav {
+            background-color: #2c3e50;
+            padding: 10px 0;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 2800px; /* Increased from 1000px */
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+            min-width: 0;
+        }
+        .left-group {
+            flex: 3; /* Give more space to the left group */
+        }
+        .right-group {
+            flex: 2; /* Give less space to the right group */
+        }
+        .nav-group h3 {
+            color: #ecf0f1;
+            margin: 0 0 10px 0;
+            font-size: 0.9em;
+            font-weight: normal;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%; /* Ensure the ul takes full width of its container */
+        }
+        .left-group ul {
+            justify-content: flex-end;
+        }
+        .right-group ul {
+            justify-content: flex-start;
+        }
+        nav ul li {
+            padding: 0 10px;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        nav ul li:not(:last-child)::after {
+            content: '|';
+            position: absolute;
+            right: 0;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        nav ul li.no-separator::after {
+            content: none;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            white-space: nowrap;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: white;
+            visibility: hidden;
+            transform: scaleX(0);
+            transition: all 0.3s ease-in-out;
+        }
+        nav ul li a:hover::after {
+            visibility: visible;
+            transform: scaleX(1);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-group {
+                margin: 10px 0;
+                width: 100%;
+            }
+            .left-group, .right-group {
+                flex: 1;
+            }
+            nav ul {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                margin: 5px 0;
+            }
+            nav ul li:not(:last-child)::after {
+                content: none;
+            }
+        }
+
+        .page-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 200vh; /* Double the height to allow scrolling */
+            background: linear-gradient(45deg, #f3e5f5, #e8eaf6, #e3f2fd);
+            z-index: -1;
+        }
+        .color-streak {
+            position: absolute;
+            width: 300vw;
+            height: 200vh;
+            transform: rotate(-45deg);
+            left: -50%;
+        }
+        .color-streak:nth-child(1) {
+            background-color: rgba(255, 87, 34, 0.2);
+            top: 0;
+        }
+        .color-streak:nth-child(2) {
+            background-color: rgba(76, 175, 80, 0.2);
+            top: 50vh;
+        }
+        
+
+        .main {
+            max-width: 1400px; /* Adjust this value to your desired maximum width */
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            align-content: center;
+            text-align: justify;
+        }
+        .home-button {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 1000;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #555;
+        }
+        .smaller-font {
+            font-size: 18px;
+        }
+        .bkg {
+            text-align: justify;
+            padding: 30px 35px;
+            transition: background-color 0.3s ease;
+        }
+        .bkg:hover {
+            background-color: #f5f5f5;
+        }
+        
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="home-button" aria-label="Home">Home</a>
+    <header class="monospace">
+        Miles Oram | Game Development Portfolio<span class="blink">_</span>
+    </header>
+    <title>12 Minutes</title>
+	<nav>
+		<div class="nav-container">
+			<div class="nav-group left-group">
+				<h3>Write-ups</h3>
+				<ul class="smaller-font">
+					<li><a href="../index.html#multi-threaded-engine">Multi-Threaded Game Engine</a></li>
+					<li class="no-separator"><a href="../index.html#slay-the-spire-recreation">Slay the Spire:   Recreation</a></li>
+					<li class="no-separator"><a href="../index.html#slay-the-spire-ml-project">+ Machine Learning</a></li>
+					<li><a href="../index.html#slay-the-spire-custom">+ Custom Class</a></li>
+					<li><a href="../index.html#terrain-generation">Procedural Terrain Generation - UE</a></li>
+					<li><a href="../index.html#occlusion-culling">Occlusion Culling - Unity</a></li>
+				</ul>
+			</div>
+			<div class="nav-group right-group">
+				<h3>Video Demos</h3>
+				<ul class="smaller-font">
+					<li><a href="../index.html#split-screen">Seamless Split-Screen - Unity</a></li>
+					<li><a href="../index.html#top-down-action">Top-Down Action - Unity</a></li>
+					<li><a href="../index.html#retro-games">Retro Games in a Day</a></li>
+					<li><a href="../index.html#old-projects">Old Projects - UE</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <div class="page-background">
+        <div class="color-streak"></div>
+        <div class="color-streak"></div>
+    </div>
+    <div class="main">
+    <h1>ANALYSES & CRITIQUES</h1>
+        <div class="bkg">
+                <p><strong>12 Minutes: My least favourite game - A discussion about interesting premises with poor execution, continuity, consistency and time loop games.</strong></p>
+                <p>
+                    For me, the worst games are those that initially hook you with an interesting premise or mechanic and then fail to aptly realise the potential of that unique idea. You are left with a bitter taste of disappointment, your expectations let down, thinking of what might have been. 12 Minutes is a perfect example of this. Time loops in games are by no means revolutionary but can give birth to some remarkable games like Outer Wilds. There is something very appealing about being thrown into the deep end with only the implicit instruction to explore - go try anything and everything you can think of. 12 Minutes appropriately rewards you by allowing you to act on your first instincts, it very quickly establishes the boundaries and seemingly tells you that this apartment is your oyster. In my opinion, it then devolves into tedium with finicky requirements and a bizarre twist at the end, here are my 3 main issues:
+                    </p><p>1. Flexibility, Freedom and Intuition - I would argue that it's important for outcomes in time loop games to feel mostly intuitive, you should have a rough idea what the result of your actions will be. In 12 Minutes it's often a guessing game, for example, the detective wants a watch, trying to give him the watch is met with a punch, but allowing him to ask for the watch and then telling him its location is okay. Similarly if you retrieve the watch from the vent in view of the wife, she storms out. Instead if you close the door, retrieve the watch and then confront her with it, she stays and listens. Although these instances are somewhat passable on their own, they are so frequent that it crosses the line from playing within the game's boundaries, to guessing what the intended solution is. Your freedom is restricted too much that you lose the wonder of exploring different paths. Having strict requirements for execution is not inherently bad but with slow restarts and setup, failing becomes tiring with too much trial and error.
+                    </p><p>2. Bottlenecks - There are a few bottlenecks in the game that can easily stump you and grind your progress to a halt. The worst of these is that you need to call the detective's daughter and convince her to dissuade the detective from his path. The problem is you can only succeed in convincing the daughter if your character believes his wife is innocent. This is by far the most egregious error the game makes; if you're in a loop watching you and your wife die repeatedly, you would try saying anything to this girl to succeed, but no, you try once, and conclude it a lost cause. On obtaining the information of your wife's innocence, why would you ever think the girl would now believe you? It was only after the detective hints at his trust in his daughter, that I thought it may be worth another attempt. The worst part is you don't even bring up the proof to the girl, you just talk vaguely about your wife's innocence and beg the girl to help. This epitomises my problem with the game, there are very simple fixes that would make the game have a coherent structure, but instead it becomes convoluted and messy.
+                    </p><p>3. Continuity - The game struggles to maintain continuity across loops. Unless the player causes the change, each loop should be exactly the same as the last. Among other deviations, if you antagonise your wife to exit the apartment too early, the detective magically arrives at the top of the lift 3 minutes early. Continuity is a pillar of a time loop game and failing here undermines the player's trust in the game.
+                    </p><p>Overall, when comparing to Outer Wilds which is a coherent loop within a solar system, it seems a loop in the confines of an apartment should allow for a more refined and high quality experience. Instead it is a highly limited and frustrating game to play. The result of far too many dialogue trees is you wasting your time on dead ends, resetting is tedious and slow, and the punch in the gut was not being rewarded for my elaborate plan which used items that were simply red herrings. Aside from the small but numerous adjustments, I think a rewind mechanic would have gone a long way to assuage the boredom during resets. The game is by no means irredeemable and there were a lot of moments I really liked, it simply failed to execute on its potential.
+                </p>
+        </div>
+    </div>
+    <script>
+		// Smooth scrolling for navigation links
+		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', function (e) {
+				e.preventDefault();
+				document.querySelector(this.getAttribute('href')).scrollIntoView({
+					behavior: 'smooth'
+				});
+			});
+		});
+	</script>
+</body>
+</html>

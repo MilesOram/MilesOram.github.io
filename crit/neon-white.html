@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            font-size: 20px;
+        }
+        header {
+			background-color: #000000;
+			color: #ecf0f1;
+			text-align: center;
+			padding: 2rem 0;
+			position: relative;
+			font-size: 36px;
+
+		}
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Monospace Option */
+        .monospace {
+            font-family: 'Courier New', monospace;
+        }
+
+		header h1 {
+			font-size: 2.5rem;
+			margin-bottom: 0.5rem;
+		}
+
+        nav {
+            background-color: #2c3e50;
+            padding: 10px 0;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 2800px; /* Increased from 1000px */
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+            min-width: 0;
+        }
+        .left-group {
+            flex: 3; /* Give more space to the left group */
+        }
+        .right-group {
+            flex: 2; /* Give less space to the right group */
+        }
+        .nav-group h3 {
+            color: #ecf0f1;
+            margin: 0 0 10px 0;
+            font-size: 0.9em;
+            font-weight: normal;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%; /* Ensure the ul takes full width of its container */
+        }
+        .left-group ul {
+            justify-content: flex-end;
+        }
+        .right-group ul {
+            justify-content: flex-start;
+        }
+        nav ul li {
+            padding: 0 10px;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        nav ul li:not(:last-child)::after {
+            content: '|';
+            position: absolute;
+            right: 0;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        nav ul li.no-separator::after {
+            content: none;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            white-space: nowrap;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: white;
+            visibility: hidden;
+            transform: scaleX(0);
+            transition: all 0.3s ease-in-out;
+        }
+        nav ul li a:hover::after {
+            visibility: visible;
+            transform: scaleX(1);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-group {
+                margin: 10px 0;
+                width: 100%;
+            }
+            .left-group, .right-group {
+                flex: 1;
+            }
+            nav ul {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                margin: 5px 0;
+            }
+            nav ul li:not(:last-child)::after {
+                content: none;
+            }
+        }
+
+        .page-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 200vh; /* Double the height to allow scrolling */
+            background: linear-gradient(45deg, #f3e5f5, #e8eaf6, #e3f2fd);
+            z-index: -1;
+        }
+        .color-streak {
+            position: absolute;
+            width: 300vw;
+            height: 200vh;
+            transform: rotate(-45deg);
+            left: -50%;
+        }
+        .color-streak:nth-child(1) {
+            background-color: rgba(255, 87, 34, 0.2);
+            top: 0;
+        }
+        .color-streak:nth-child(2) {
+            background-color: rgba(76, 175, 80, 0.2);
+            top: 50vh;
+        }
+        
+
+        .main {
+            max-width: 1400px; /* Adjust this value to your desired maximum width */
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            align-content: center;
+            text-align: justify;
+        }
+        .home-button {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 1000;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #555;
+        }
+        .smaller-font {
+            font-size: 18px;
+        }
+        .bkg {
+            text-align: justify;
+            padding: 30px 35px;
+            transition: background-color 0.3s ease;
+        }
+        .bkg:hover {
+            background-color: #f5f5f5;
+        }
+        
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="home-button" aria-label="Home">Home</a>
+    <header class="monospace">
+        Miles Oram | Game Development Portfolio<span class="blink">_</span>
+    </header>
+    <title>Neon White</title>
+	<nav>
+		<div class="nav-container">
+			<div class="nav-group left-group">
+				<h3>Write-ups</h3>
+				<ul class="smaller-font">
+					<li><a href="../index.html#multi-threaded-engine">Multi-Threaded Game Engine</a></li>
+					<li class="no-separator"><a href="../index.html#slay-the-spire-recreation">Slay the Spire:   Recreation</a></li>
+					<li class="no-separator"><a href="../index.html#slay-the-spire-ml-project">+ Machine Learning</a></li>
+					<li><a href="../index.html#slay-the-spire-custom">+ Custom Class</a></li>
+					<li><a href="../index.html#terrain-generation">Procedural Terrain Generation - UE</a></li>
+					<li><a href="../index.html#occlusion-culling">Occlusion Culling - Unity</a></li>
+				</ul>
+			</div>
+			<div class="nav-group right-group">
+				<h3>Video Demos</h3>
+				<ul class="smaller-font">
+					<li><a href="../index.html#split-screen">Seamless Split-Screen - Unity</a></li>
+					<li><a href="../index.html#top-down-action">Top-Down Action - Unity</a></li>
+					<li><a href="../index.html#retro-games">Retro Games in a Day</a></li>
+					<li><a href="../index.html#old-projects">Old Projects - UE</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <div class="page-background">
+        <div class="color-streak"></div>
+        <div class="color-streak"></div>
+    </div>
+    <div class="main">
+    <h1>ANALYSES & CRITIQUES</h1>
+        <div class="bkg">
+                <p><strong>Neon White: The importance of discretising progress in improving your times in a speedrunning game.</strong></p>
+                <p>
+                    Speedrunning as a concept will always exist on the more hardcore end of the spectrum of gaming experiences. Making a widely enjoyable speedrunning-focused game is not an easy task. If you've ever attempted to give speedrunning a go, your experience will likely have been one of the following: you see a world record speedrun and jump in trying to replicate it, only to find parts that are incredibly difficult to execute or must be succeeded on the first try, leaving you stranded in the deep end. Or maybe you attempt to find your own routes and optimisations, likely making little progress, especially in comparison to the efforts of that game's community. Both of these methods will lead to frustration and quitting, and whilst there is a sweet spot in between them, I think it illustrates the difficulty involved in how to properly structure a game like Neon White. Framing and structure are pivotal in most games but are absolutely crucial for a genre that can be so easily bounced off of.
+            </p><p> I think the most appealing parts of speedrunning are: achieving something challenging in a domain you care about and the creative process in improving your routes. So what do I mean about 'discretising progress'? Obviously the game has bronze, silver, gold, ace and dev-time milestones for each level, but this is not really what I'm referring to. Taking a step back for a moment, when you look at the creative process for tackling a speedrun, what are the best and worst parts of that experience? I think tedium and excessive friction/struggle are among the worst, along with too much micro-optimising, whilst the best include the problem-solving aspect, viewing the level in a new way or stumbling across an interaction that gives you a huge boost. 
+            </p><p> If you can extract the good parts from this evaluation and take a holistic look at the resulting product, if it functions well, you have a recipe for success. Whether this was done with explicit intention or not, Neon White removes the drudgery that can come with speedrunning. It leaves enough of a struggle to make the experience rewarding and lays the ground-work for plenty of depth for those who want it, but focuses on creating puzzle-like levels with amazing moments of realisation as you progress.
+            </p><p> For newcomers to the genre, finding a 3 second skip is almost always going to be a better experience than finding ten different 0.3 second skips, particularly in the early levels. When dealing with time trials, your single metric for success is continuous: your time, to 3 decimal places. Medals and milestones are great for encouraging progress and giving the player the belief that improvement is possible (the dev-times were extremely impactful in this way) but they do little to address the real issue here. Grading a continuous metric does not make it any less inherently continuous. The nature of the goalposts has no relation to the path taken to reach the next goal - it can be ten runs of small refinements or two runs of searching for a trick. This is the core challenge in making a game like Neon White, and its success lies in the design of its levels and gameplay.
+            </p><p> Pretty much every level is designed to have at least one major puzzle to solve, whether that be a shortcut which cuts off a large portion of the route, or a discovery that some interaction/mechanic can actually be executed a lot faster. Typically, you begin by attempting to sight-read each new level, following the base route laid out in front of you and refining this until you reach either a gold or ace medal. This moment is by far the most important part of each stage. It's the point at which newcomers might be happy to move on and therefore the moment when you need to provide a hook for the player to persist. The game very quickly establishes that if you keep exploring the level, you will ALWAYS be rewarded for your efforts with one or more clever constructions or tricks. There is a puzzle to solve in every level and if you leave now, you haven't solved it.
+            </p><p> The progression structure for each level can be visualised as a series of bands. Each band represents a distinct route through the level, with its own set of optimisations and variations. As you improve and discover skips, you jump from one band to the next, where each new band offers a fresh and more challenging way to complete the level. This journey of improvement is deliberately discretised: you can translate your continuous time metric into a pseudo-checklist of skips that have been found by the player and hence chunks of time to be shaven off. 
+            </p><p> For a better perspective, let's look at the alternative to this. It would likely involve presenting hidden mechanics upfront (like shooting bullets for a speed boost or gliding on the edges of waterways) and creating more complex levels. Improvements would involve progressing up a curve as you master mechanically intensive skills. Progress would be incremental and its curve would be mostly smooth with no large jumps or steps. But why would this be so much worse?
+            </p><p> Imagine assigning a binary metric to each run of a level you complete, either improvement due to a skip or due to refinement. The balance of 'skip vs refine' has a huge impact on the pacing of the game as a whole, with its 90-odd main levels. More importantly, this balance is everything in terms of welcoming new players and providing a sufficient on-ramp for accessibility. It loops back to the start when I mentioned ways an individual might approach speedrunning to no avail. Here, you're giving the players stabilisers to introduce them to a truly enjoyable gaming genre, providing them with structure and curated experiences and allowing them to remove the stabilisers as and when they're ready. 
+            </p><p> The importance of hand-crafting a speedrunning experience cannot be overstated; picking a game to speedrun has no guarantee of a reward and can easily feel like a sandbox, which is daunting to newcomers. Each level in Neon White, and each band within, acts as a microcosm of this experience - a distilled drop of it. It contains the highs of finding shortcuts and overcoming difficulty and gives a taste of the more grindy aspects. 
+            </p><p> But crucially it always remains a choice. Players can focus on searching and exploring the level for skips immediately if they prefer. Experienced players can skip the early bands altogether. Newer players can enjoy a watered-down version of optimisation at the lower bands and jump to the next at any time. This flexible structure allows players to intuitively or consciously tailor their own experience, all the while encouraging the player to push deeper via the dev-time or leaderboards. Frontloading skips in the timeline for each level and making them accessible was integral to perfecting the introductory experiences.
+            </p><p> Neon White excels on all gameplay fronts from its big-picture framing and structure down to the minutia of every level. It succeeds in being a valuable experience for new and veteran fans of speedrunning. The on-ramp is executed near perfectly and the levels deserve massive credit for their variety, interesting puzzles but also their intentional and unintentional depth. Often world records for levels will be routes not accounted for by the developers but the developers still deserve all the credit for this. The environment is often either superfluous to route requirements or tightly designed to allow for ingenuity even where it could not necessarily be predicted. 
+            </p><p> Each level is approachable yet deep, structured but also open-ended, allowing the player to craft the experience that best suits them. Neon White proves that you can have it both ways, you can create challenges for veteran players whilst appealing to and inducting a wider audience. Focusing on puzzle-like skips and hence discretising progress whilst disguising skill-intensive curve progression was key to the game's success as a uniquely satisfying experience for all abilities. It helped give me the speedrunning experience I had always wanted without the frustration I'd come to expect.
+                </p>
+        </div>
+    </div>
+    <script>
+		// Smooth scrolling for navigation links
+		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', function (e) {
+				e.preventDefault();
+				document.querySelector(this.getAttribute('href')).scrollIntoView({
+					behavior: 'smooth'
+				});
+			});
+		});
+	</script>
+</body>
+</html>
